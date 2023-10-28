@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/CSS/index.css">
+    <title>Tu Sitio Web</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Inicio</a>
+        <a href="/subir-archivos">Subir Documento</a>
+        <a href="/perfil-usuario">Perfil</a>
+    </div>
+
+    <form id="search-form" action="/mostrar-datos/" method="GET">
+        <div class="search-container">
+            <input type="text" class="search-box" name="q" id="search-input" placeholder="Buscar...">
+            <input type="submit" value="Buscar" id="search-button">
+        </div>
+    </form>
+
+    <script>
+        // Captura el evento de envío del formulario
+        document.getElementById('search-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Previene el envío del formulario por defecto
+
+            // Obtiene el valor del campo de búsqueda
+            var searchTerm = document.getElementById('search-input').value;
+
+            // Redirige a la URL sin '?q=' agregando el valor de búsqueda
+            window.location.href = '/mostrar-datos/' + searchTerm;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../CSS/login_register.css">
+    <title>Login Transparente</title>
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="login-form">
+            <h2>Login</h2>
+            <div id="alerta" style="display: none; color: red;">Credenciales incorrectas</div>
+            <form action="/auth" method="post">
+                <input type="text" id="username" name="username" placeholder="Usuario" required>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <p>¿No tienes cuenta? <a href="./register" id="registerLink">Registrate</a></p>
+        </div>
+    </div>
+    <script src="/JS/login.js"></script>
+</body>
+</html>

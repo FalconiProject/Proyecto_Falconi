@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario para Eliminar Datos de Póliza</title>
+  <link rel="stylesheet" href="/CSS/eliminar_archivos.css">
+</head>
+<body>
+  <h1>Eliminar Datos de Póliza</h1>
+  <form id="deleteForm">
+    <label for="numeroPoliza">Número de Póliza:</label>
+    <input type="text" id="numeroPoliza" name="numeroPoliza" required>
+    <button type="submit">Eliminar Datos</button>
+  </form>
+  <div id="message"></div>
+
+  <script>
+    document.getElementById('deleteForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const numeroPoliza = document.getElementById('numeroPoliza').value;
+      const message = document.getElementById('message');
+
+      fetch(`/eliminar/${numeroPoliza}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            message.innerHTML = 'Datos eliminados con éxito';
+          } else if (response.status === 404) {
+            message.innerHTML = 'Póliza no encontrada';
+          } else {
+            message.innerHTML = 'Error interno del servidor';
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          message.innerHTML = 'Error interno del servidor';
+        });
+    });
+  </script>
+</body>
+</html>

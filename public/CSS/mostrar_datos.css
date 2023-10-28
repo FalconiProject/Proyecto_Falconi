@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 20px;
+}
+
+/* Estilos para el contenedor */
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px; /* Espacio entre los bordes de la pantalla y el contenedor */
+}
+
+/* Estilos para los divs */
+.div1,
+.div2 {
+  width: calc(
+    50% - 20px
+  ); /* 50% del ancho disponible menos el espacio entre los divs y los bordes de la pantalla */
+  padding: 20px; /* Espacio entre los divs y su contenido */
+  border: 1px solid #ccc;
+  margin: 20px; /* Espacio entre los divs */
+}
+
+#Poliza {
+  background-color: rgb(155, 30, 30);
+  justify-content: center;
+  padding: 1px;
+}
+
+#poliza_texto {
+  color: #fff;
+  margin: 10px;
+}
+
+#Facturacion {
+  background-color: rgb(155, 30, 30);
+  justify-content: center;
+  padding: 1px;
+}
+
+#facturacion_texto {
+  color: #fff;
+  margin: 10px;
+}
+
+#Poliza_info {
+  padding-left: 40px;
+}
+
+.poliza_estado {
+  padding-left: 100px;
+}
+
+.Accordions {
+  width: 1750px;
+  padding: 40px;
+  background-color: rgb(217, 215, 215);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+table {
+  width: calc(100% - 40px); /* El 100% menos 40px de margen */
+  margin: 20px;
+  border-collapse: collapse; /* Combina los bordes de las celdas */
+}
+
+th,
+td {
+  border-top: 1px solid black; /* Agrega un borde en la parte superior (línea de borde de arriba) */
+  border-bottom: 1px solid black; /* Elimina el borde en la parte inferior (líneas horizontales de fila) */
+}
+
+th,
+td:first-child {
+  border-left: 1px solid black; /* Agrega un borde a la izquierda de la primera columna (líneas de borde de izquierda) */
+}
+
+th,
+td:last-child {
+  border-right: 1px solid black; /* Agrega un borde a la derecha de la última columna (líneas de borde de derecha) */
+}

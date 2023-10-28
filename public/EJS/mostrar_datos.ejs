@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/CSS/mostrar_datos.css" />
+    <title>My Page</title>
+  </head>
+  <body>
+    <!-- Barra de Navegación -->
+    <div class="navbar">
+      <a href="#">Policy</a>
+      <a href="#">Billing</a>
+    </div>
+
+    <!-- Contenido de la página -->
+
+    <div id="Poliza">
+      <h1 id="poliza_texto">Policy</h1>
+    </div>
+
+    <div id="Poliza_info">
+      <p>
+        Here you will find important information about your Falcon insurance
+        policy.
+        <br />
+        If you have a new policy with Falcon, please click here to update your
+        account and add the most recent policy, or select 'more' in the menu.
+        <br />
+        Please contact your agent to reset or renew your policy.
+      </p>
+    </div>
+
+    <div class="poliza_estado">
+      <p>Policy Status: <b><%= polizaData[0].estadoPoliza %></b></p>
+      <p>Policy Number: <b><%= polizaData[0].numeroPoliza %></b></p>
+      <% var startDate = new Date(polizaData[0].fechaInicio); %>
+      <% var endDate = new Date(polizaData[0].fechaFinalizacion); %>
+
+      <p>Term: <b><%= startDate.toLocaleDateString('en-US') %> - <%= endDate.toLocaleDateString('en-US') %></b></p>
+    </div>
+
+    <div class="container">
+      <div class="div1">
+        <h2>Policy Owner</h2>
+        <p>
+          Full Name <br />
+          <b><%= polizaData[0].nombreCompleto %></b>
+        </p>
+        <p>
+          Email <br />
+          <b><%= polizaData[0].correoElectronico %></b>
+        </p>
+        <p>
+          Phone <br />
+          <b><%= polizaData[0].telefono %></b>
+        </p>
+        <p>
+          Mailing Address <br />
+          <b><%= polizaData[0].direccionPostal %></b>
+        </p>
+        <p>
+          Garage Address <br />
+          <b><%= polizaData[0].direccionGaraje %></b>
+        </p>
+      </div>
+      <div class="div2">
+        <h2>
+          This policy provides at least the minimum amounts of liability <br />
+          insurance required by the Texas Motor Vehicle Safety Responsability
+          <br />
+          Act for specified vehicle and named insured and may provide <br />
+          coverage for other persons and other vehicles as provided by the
+          <br />
+          insurance policy.
+        </h2>
+      </div>
+    </div>
+    
+    <!-- Sección para conductores -->
+    <% for (let i = 0; i < conductores.length; i++) { %>
+      <section class="Accordions">
+        <div class="accordion">
+          <details>
+            <summary>
+              Drivers <br />
+              <%= i + 1 %>. <%= conductores[i].nombreConductor %> (Insured)
+            </summary>
+            <p>
+              Relationship: <b><%= conductores[i].relacionConductor %></b> <br />
+              Date of Birth: <b><%= new Date(conductores[i].fechaNacimientoConductor).toLocaleDateString('en-US') %></b>
+              <br />
+              Gender: <b><%= conductores[i].generoConductor %></b>
+            </p>
+          </details>
+        </div>
+      </section>
+      <br>
+    <% } %>
+      <br>
+    <section class="Accordions">
+      <div class="accordion">
+        <details>
+          <summary>
+            Vehicles <br />
+            1. <%= polizaData[0].anoVehiculo %> <%= polizaData[0].marcaVehiculo %> <%= polizaData[0].modeloVehiculo %>
+          </summary>
+          <p>
+            Year: <b><%= polizaData[0].anoVehiculo %></b> <br />
+            Make: <b><%= polizaData[0].marcaVehiculo %></b> <br />
+            Model: <b><%= polizaData[0].modeloVehiculo %></b> <br />
+            VIN #: <b><%= polizaData[0].vinVehiculo %></b> <br />
+            Body Type: <b><%= polizaData[0].tipoCuerpoVehiculo %></b>
+            <br />
+            Lease: <b><%= polizaData[0].arrendamientoVehiculo %></b>
+          </p>
+        </details>
+      </div>
+    </section>
+    <br />
+    <br />
+    <!-- Sección para facturación -->
+    <div id="Facturacion">
+      <h1 id="facturacion_texto">Billing</h1>
+    </div>
+    <br />
+    <section class="Accordions">
+      <div class="accordion">
+        <details>
+          <summary>Payment Receipt</summary>
+          <table>
+            <tr>
+              <td>X</td>
+              <td><b>Amount</b></td>
+              <td><b>Date</b></td>
+            </tr>
+            <tr>
+              <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="../IMG/pdf.png" style="width: 20px;"></a></td>
+              <td><%= facturaciones[0].cantidadFacturacion %></td>
+              <td><%= new Date(facturaciones[0].fechaFacturacion).toLocaleDateString('en-US') %></td>
+            </tr>
+          </table>
+        </details>
+      </div>
+    </section>
+  </body>
+</html>

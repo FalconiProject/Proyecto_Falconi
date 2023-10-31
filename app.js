@@ -388,24 +388,18 @@ app.delete("/eliminar/:numeroPoliza", (req, res) => {
   });
 });
 
-//AUTENTIFICACION
-// Dentro de tu ruta de autenticación ("/auth")
 app.post("/auth", async (req, res) => {
   const user = req.body.username;
   const pass = req.body.password;
+
   if (user && pass) {
-    connection.query(
-      "SELECT * FROM User WHERE username = ?",
-      [user],
-      async (error, results) => {
-        if (results.length === 0) {
-          // Redirige al usuario a la página de inicio de sesión (archivo HTML)
-          res.sendFile(path.join(__dirname, "public/HTML/login.html"));
-        } else {
-          const isPasswordValid = await bcryptjs.compare(
-            pass,
-            results[0].password
-          );
+    connection.query("SELECT * FROM User WHERE username = ?", [user], async (error, results) => {
+      if (error) {
+        // Maneja el error de la consulta de base de datos, por ejemplo, enviando una respuesta de error.
+        res.status(500).send("Error interno del servidor");
+      } else {
+        if (results && results.length > 0) {
+          const isPasswordValid = await bcryptjs.compare(pass, results[0].password);
 
           if (isPasswordValid) {
             const userInfo = {
@@ -422,9 +416,12 @@ app.post("/auth", async (req, res) => {
             // Autenticación fallida, redirige a la página de inicio de sesión con una query string
             res.redirect("/login?error=true");
           }
+        } else {
+          // No se encontró el usuario, redirige al usuario a la página de inicio de sesión
+          res.redirect("/login");
         }
       }
-    );
+    });
   } else {
     res.send("Por favor ingrese un usuario y contraseña");
   }

@@ -1,59 +1,40 @@
+/* styles.css */
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
-  background-image: url(../IMG/Fondo_Pagina_principal.jpg);
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh; /* En lugar de height: 100vh */
-}
-
-.navbar {
-  background-color: #f22525;
-  overflow: hidden;
-  width: 100%;
-  position: fixed;
-  top: 0;
-}
-
-.navbar a {
-  display: block;
-  float: none; /* Cambia float a none */
-  color: white;
   text-align: center;
-  padding: 14px 0; /* Ajusta el espaciado vertical */
-  text-decoration: none;
 }
 
-.search-container {
+h1 {
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+a {
+  display: inline-block; /* Hace que los botones estén uno al lado del otro */
   margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column; /* Cambia a flex-direction: column */
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.615);
-  max-width: 80%; /* Usa porcentaje en lugar de un valor fijo */
-  border-radius: 10px;
+  text-decoration: none;
+  padding: 10px 20px; /* Agrega un poco de espacio alrededor del texto */
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s; /* Agrega una transición de cambio de color */
 }
 
-.search-box {
-  width: 100%; /* Cambia a un ancho del 100% */
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 20px;
+a:hover {
+  background-color: #ddd; /* Cambia el color de fondo al pasar el mouse por encima */
 }
 
-#search-button {
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 15px;
-  border-radius: 10px;
-  font-size: 20px;
+/* Estilos específicos para los botones */
+#subir-archivos {
+  background-color: #28a745; /* Verde para "Subir Archivos" */
+  color: #fff; /* Texto blanco */
+}
+
+#cerrar-sesion {
+  background-color: #dc3545; /* Rojo para "Cerrar Sesión" */
+  color: #fff; /* Texto blanco */
 }

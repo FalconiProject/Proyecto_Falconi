@@ -15,31 +15,28 @@ body {
 .navbar a {
   text-decoration: none;
   color: #fff;
-  margin: 0 20px;
+  margin: 0 10px; /* Reduce el espacio entre los elementos de la barra de navegación en dispositivos móviles */
 }
 
 /* Estilos para el contenedor */
 .container {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px; /* Espacio entre los bordes de la pantalla y el contenedor */
+  flex-direction: column; /* Cambia la dirección de flexión para dispositivos móviles */
+  margin: 20px;
 }
 
 /* Estilos para los divs */
 .div1,
 .div2 {
-  width: calc(
-    50% - 20px
-  ); /* 50% del ancho disponible menos el espacio entre los divs y los bordes de la pantalla */
-  padding: 20px; /* Espacio entre los divs y su contenido */
+  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
+  padding: 20px;
   border: 1px solid #ccc;
-  margin: 20px; /* Espacio entre los divs */
+  margin: 20px;
 }
 
 #Poliza {
   background-color: rgb(155, 30, 30);
-  justify-content: center;
   padding: 1px;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #poliza_texto {
@@ -49,8 +46,8 @@ body {
 
 #Facturacion {
   background-color: rgb(155, 30, 30);
-  justify-content: center;
   padding: 1px;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #facturacion_texto {
@@ -59,21 +56,18 @@ body {
 }
 
 #Poliza_info {
-  padding-left: 40px;
+  padding-left: 20px; /* Reduce el espacio a la izquierda en dispositivos móviles */
 }
 
 .poliza_estado {
-  padding-left: 100px;
+  padding-left: 20px; /* Reduce el espacio a la izquierda en dispositivos móviles */
 }
 
 .Accordions {
-  width: 1750px;
-  padding: 40px;
+  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
+  padding: 20px;
   background-color: rgb(217, 215, 215);
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  margin: 20px;
 }
 
 summary {
@@ -82,23 +76,23 @@ summary {
 }
 
 table {
-  width: calc(100% - 40px); /* El 100% menos 40px de margen */
+  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
   margin: 20px;
-  border-collapse: collapse; /* Combina los bordes de las celdas */
+  border-collapse: collapse;
 }
 
 th,
 td {
-  border-top: 1px solid black; /* Agrega un borde en la parte superior (línea de borde de arriba) */
-  border-bottom: 1px solid black; /* Elimina el borde en la parte inferior (líneas horizontales de fila) */
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 th,
 td:first-child {
-  border-left: 1px solid black; /* Agrega un borde a la izquierda de la primera columna (líneas de borde de izquierda) */
+  border-left: 1px solid black;
 }
 
 th,
 td:last-child {
-  border-right: 1px solid black; /* Agrega un borde a la derecha de la última columna (líneas de borde de derecha) */
+  border-right: 1px solid black;
 }

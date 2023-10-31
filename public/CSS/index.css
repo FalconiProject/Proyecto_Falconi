@@ -1,59 +1,83 @@
+/* Estilos generales para escritorio */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    background-image: url(../IMG/Fondo_Pagina_principal.jpg);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  background-image: url(../IMG/Fondo_Pagina_principal.jpg);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #f22525;
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.navbar a {
+  display: block;
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.search-container {
+  margin: 10px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.615);
+  max-width: 80%;
+  border-radius: 10px;
+}
+
+.search-box {
+  width: 400px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#search-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+/* Estilos específicos para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  body {
+    background-position: right center; /* Cambia la posición de la imagen para centrar la parte superior en dispositivos móviles */
   }
-  
-  .navbar {
-    background-color: #f22525;
-    overflow: hidden;
-    width: 100%;
-    position: fixed;
-    top: 0;
-  }
-  
-  .navbar a {
-    display: block;
-    float: left;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
+
   .search-container {
-    margin: 10px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.615);
-    width: 700px;
-    height: 100px;
-    border-radius: 10px;
+    flex-direction: column; /* Cambia a flex-direction: column */
   }
-  
+
   .search-box {
-    width: 400px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 20px;
+    width: 100%; /* Cambia el ancho a 100% en dispositivos móviles */
+    margin-left: 120px;
+    margin-right: 120px; /* Añade margen en la parte superior e inferior */
   }
+
   #search-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-size: 20px;
+    font-size: 16px;
   }
-  
+}

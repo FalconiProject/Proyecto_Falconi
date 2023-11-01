@@ -1,10 +1,10 @@
+/* Estilos para dispositivos de escritorio (pantallas más grandes) */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
 }
 
-/* Estilos para la barra de navegación */
 .navbar {
   text-align: center;
   background-color: #333;
@@ -15,19 +15,18 @@ body {
 .navbar a {
   text-decoration: none;
   color: #fff;
-  margin: 0 10px; /* Reduce el espacio entre los elementos de la barra de navegación en dispositivos móviles */
+  margin: 0 20px;
 }
 
-/* Estilos para el contenedor */
 .container {
-  flex-direction: column; /* Cambia la dirección de flexión para dispositivos móviles */
+  display: flex;
+  justify-content: space-between;
   margin: 20px;
 }
 
-/* Estilos para los divs */
 .div1,
 .div2 {
-  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
+  width: calc(50% - 20px);
   padding: 20px;
   border: 1px solid #ccc;
   margin: 20px;
@@ -35,8 +34,8 @@ body {
 
 #Poliza {
   background-color: rgb(155, 30, 30);
+  justify-content: center;
   padding: 1px;
-  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #poliza_texto {
@@ -46,8 +45,8 @@ body {
 
 #Facturacion {
   background-color: rgb(155, 30, 30);
+  justify-content: center;
   padding: 1px;
-  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #facturacion_texto {
@@ -56,18 +55,21 @@ body {
 }
 
 #Poliza_info {
-  padding-left: 20px; /* Reduce el espacio a la izquierda en dispositivos móviles */
+  padding-left: 40px;
 }
 
 .poliza_estado {
-  padding-left: 20px; /* Reduce el espacio a la izquierda en dispositivos móviles */
+  padding-left: 100px;
 }
 
 .Accordions {
-  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
-  padding: 20px;
+  width: 1750px;
+  padding: 40px;
   background-color: rgb(217, 215, 215);
-  margin: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 summary {
@@ -76,7 +78,7 @@ summary {
 }
 
 table {
-  width: 100%; /* Ocupa todo el ancho disponible en dispositivos móviles */
+  width: calc(100% - 40px);
   margin: 20px;
   border-collapse: collapse;
 }
@@ -95,4 +97,69 @@ td:first-child {
 th,
 td:last-child {
   border-right: 1px solid black;
+}
+
+/* Estilos específicos para dispositivos móviles (Media Query) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    margin: 10px; /* Espacio entre los bordes de la pantalla y el contenedor */
+    text-align: left; /* Alinea el texto a la izquierda */
+  }
+
+  .div1,
+  .div2 {
+    width: calc(
+      100% - 40px
+    ); /* 100% del ancho disponible menos 40px de margen en ambos lados */
+    padding: 20px; /* Espacio entre los divs y su contenido */
+    margin: 10px; /* Espacio igual en todos los lados */
+    border: 1px solid #ccc; /* Agrega un contorno a los divs */
+    display: inline-block; /* Coloca los divs en una sola fila */
+  }
+
+  #Poliza,
+  #Facturacion {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+
+  #poliza_texto,
+  #facturacion_texto {
+    margin: 10px;
+    text-align: left; /* Alinea el texto a la izquierda */
+  }
+
+  #Poliza_info {
+    padding-left: 10px;
+  }
+
+  .poliza_estado {
+    padding-left: 10px;
+  }
+
+  .Accordions {
+    width: auto;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc; /* Agrega un contorno a la sección Accordions */
+    border-radius: 10px;
+  }
+
+  table {
+    width: 100%;
+    margin: 10px 0;
+    border-collapse: collapse;
+    border: 1px solid #ccc; /* Agrega un contorno a la tabla */
+    border-radius: 10px;
+  }
+
+  th,
+  td {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+  }
 }

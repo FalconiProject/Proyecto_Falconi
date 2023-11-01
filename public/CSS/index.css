@@ -65,6 +65,7 @@ body {
 @media screen and (max-width: 768px) {
   body {
     background-position: right center; /* Cambia la posición de la imagen para centrar la parte superior en dispositivos móviles */
+    background-size: cover;
   }
 
   .search-container {

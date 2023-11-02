@@ -9,6 +9,9 @@
   <body>
     <!-- Barra de Navegación -->
     <div class="navbar">
+      <div class="contenedor_logo">
+        <img src="/IMG/falcon_logo.png" alt="" id="logo">
+      </div>
       <a href="/">Homepage</a>
       <a href="#Poliza">Policy</a>
       <a href="#Facturacion">Billing</a>
@@ -68,7 +71,7 @@
       <div class="div2">
         <h2>
           This policy provides at least the minimum amounts of liability <br />
-          insurance required by the Texas Motor Vehicle Safety Responsability
+          insurance required by the Texas Motor Vehicle Safety Responsibility
           <br />
           Act for specified vehicle and named insured and may provide <br />
           coverage for other persons and other vehicles as provided by the
@@ -86,6 +89,8 @@
             <summary>
               Drivers <br />
               <%= i + 1 %>. <%= conductores[i].nombreConductor %> (Insured)
+              <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+              <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
             </summary>
             <p>
               Relationship: <b><%= conductores[i].relacionConductor %></b> <br />
@@ -105,6 +110,8 @@
           <summary>
             Vehicles <br />
             1. <%= polizaData[0].anoVehiculo %> <%= polizaData[0].marcaVehiculo %> <%= polizaData[0].modeloVehiculo %>
+            <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
           </summary>
           <p>
             Year: <b><%= polizaData[0].anoVehiculo %></b> <br />
@@ -126,9 +133,12 @@
     </div>
     <br />
     <section class="Accordions">
-      <div class="accordion">
+      <div class "accordion">
         <details>
-          <summary>Payment Receipt</summary>
+          <summary>
+            Payment Receipt
+            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
+          </summary>
           <table>
             <tr>
               <td>X</td>
@@ -136,7 +146,7 @@
               <td><b>Date</b></td>
             </tr>
             <tr>
-              <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="../IMG/pdf.png" style="width: 20px;"></a></td>
+              <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
               <td><%= facturaciones[0].cantidadFacturacion %></td>
               <td><%= new Date(facturaciones[0].fechaFacturacion).toLocaleDateString('en-US') %></td>
             </tr>
@@ -144,5 +154,6 @@
         </details>
       </div>
     </section>
+    <script src="/JS/mostrar_datos.js"></script>
   </body>
 </html>

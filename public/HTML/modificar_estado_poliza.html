@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modificar Estado de Póliza</title>
+    <link rel="stylesheet" href="/CSS/modificar_estado_poliza.css">
+  </head>
+  <body>
+    <h1>Modificar Estado de Póliza</h1>
+    <form id="modifyForm">
+      <label for="numeroPoliza">Número de Póliza:</label>
+      <input type="text" id="numeroPoliza" name="numeroPoliza" required>
+      <label for="estadoPoliza">Nuevo Estado de Póliza:</label>
+      <select id="estadoPoliza" name="estadoPoliza" required>
+        <option value="">Seleccionar...</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Approved">Approved</option>
+      </select>
+      <button type="submit">Modificar Estado</button>
+    </form>
+
+    <script>
+      document.getElementById("modifyForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const numeroPoliza = document.getElementById("numeroPoliza").value;
+        const estadoPoliza = document.getElementById("estadoPoliza").value;
+
+        // Realiza la solicitud AJAX para modificar el estado de la póliza
+        fetch(`/poliza-modificar-estado/${numeroPoliza}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ estadoPoliza }),
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              // El estado de la póliza se modificó con éxito
+              alert("Estado de la póliza modificado con éxito");
+            } else {
+              // Ocurrió un error al modificar el estado de la póliza
+              alert("Error al modificar el estado de la póliza");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+    </script>
+  </body>
+</html>

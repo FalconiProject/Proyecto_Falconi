@@ -18,6 +18,10 @@ body {
   margin: 0 20px;
 }
 
+#logo {
+  width: 200px;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -75,6 +79,9 @@ body {
 summary {
   list-style: none;
   cursor: pointer;
+  display: flex; /* Añadimos display flex */
+  justify-content: space-between; /* Colocamos el contenido a la derecha */
+  align-items: center; /* Centramos verticalmente */
 }
 
 table {
@@ -97,6 +104,16 @@ td:first-child {
 th,
 td:last-child {
   border-right: 1px solid black;
+}
+
+.info-icon {
+  width: 30px; /* Ajustamos el tamaño de la imagen a 30px para que sea más grande */
+  cursor: pointer; /* Cambia el cursor al puntero al pasar por encima */
+}
+
+.info-icon.clicked {
+  transform: rotate(180deg); /* Gira la imagen cuando se hace clic */
+  transition: transform 0.3s; /* Agrega una transición para una animación suave */
 }
 
 /* Estilos específicos para dispositivos móviles (Media Query) */

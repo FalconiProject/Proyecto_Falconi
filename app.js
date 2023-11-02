@@ -63,6 +63,12 @@ app.get("/", auth, function (req, res) {
   res.sendFile(indexPath);
 });
 
+app.get("/modificar-estado-poliza", auth, function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/modificar_estado_poliza.html");
+  res.sendFile(indexPath);
+});
+
 app.get("/perfil-usuario", auth, (req, res) => {
   if (!req.session.username) {
     res.redirect("/login");
@@ -299,6 +305,26 @@ app.post("/registrar", upload.single("archivo_pdf"), (req, res) => {
   }
 });
 
+app.put("/poliza-modificar-estado/:numeroPoliza", function (req, res) {
+  const numeroPoliza = req.params.numeroPoliza;
+  const nuevoEstadoPoliza = req.body.estadoPoliza; // Supongo que enviarás el nuevo estado en el cuerpo de la solicitud
+
+  // Realiza una consulta SQL para actualizar el estado de la póliza en la base de datos
+  const query = `
+    UPDATE Poliza
+    SET estadoPoliza = ?
+    WHERE numeroPoliza = ?;
+  `;
+
+  connection.query(query, [nuevoEstadoPoliza, numeroPoliza], (err, result) => {
+    if (err) {
+      console.error("Error al modificar el estado de la póliza:", err);
+      res.status(500).send("Error al modificar el estado de la póliza");
+    } else {
+      res.status(200).send("Estado de la póliza modificado con éxito");
+    }
+  });
+});
 
 //Eliminar Poliza
 app.delete("/eliminar/:numeroPoliza", (req, res) => {

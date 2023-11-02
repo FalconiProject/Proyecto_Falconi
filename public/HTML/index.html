@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/CSS/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/CSS/index.css" />
     <title>Falconi-Insurance Inicio</title>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Barra de Navegación -->
     <div class="navbar">
-        <a href="/">Inicio</a>
-        <a href="/perfil-usuario">Perfil</a>
+      <div class="contenedor_logo">
+        <img src="/IMG/falcon_logo.png" alt="" id="logo" />
+      </div>
+      <div class="opciones">
+        <a href="/"><b>Homepage</b></a>
+      </div>
     </div>
 
     <form id="search-form" action="/mostrar-datos/" method="GET">
-        <div class="search-container">
-            <input type="text" class="search-box" name="q" id="search-input" placeholder="Buscar...">
-            <br>
-            <input type="submit" value="Buscar" id="search-button">
-        </div>
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-box"
+          name="q"
+          id="search-input"
+          placeholder="Buscar..."
+        />
+        <br />
+        <input type="submit" value="Buscar" id="search-button" />
+      </div>
     </form>
 
     <script>
-        // Captura el evento de envío del formulario
-        document.getElementById('search-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Previene el envío del formulario por defecto
+      // Captura el evento de envío del formulario
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Previene el envío del formulario por defecto
 
-            // Obtiene el valor del campo de búsqueda
-            var searchTerm = document.getElementById('search-input').value;
+          // Obtiene el valor del campo de búsqueda
+          var searchTerm = document.getElementById("search-input").value;
 
-            // Redirige a la URL sin '?q=' agregando el valor de búsqueda
-            window.location.href = '/mostrar-datos/' + searchTerm;
+          // Redirige a la URL sin '?q=' agregando el valor de búsqueda
+          window.location.href = "/mostrar-datos/" + searchTerm;
         });
     </script>
-</body>
+  </body>
 </html>

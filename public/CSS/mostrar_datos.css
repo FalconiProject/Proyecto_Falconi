@@ -7,35 +7,37 @@ body {
 
 .navbar {
   display: flex;
-  align-items: center;
+  justify-content: space-between; /* Añade espacio entre el logo y las opciones */
+  align-items: center; /* Centra verticalmente el contenido de la barra de navegación */
   background-color: hsl(100, 100, 100);
   color: #fff;
-  padding: 10px 20px;
+  padding: 10px;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a una nueva línea si no caben */
 }
 
 .contenedor_logo {
-  margin-right: auto; /* Empuja el logo hacia la izquierda */
+  display: flex; /* Permite ajustar el logo verticalmente */
+  align-items: center; /* Centra verticalmente el logo */
+  margin-right: 10px; /* Ajusta el margen derecho del logo */
+}
+
+#logo {
+  width: 150px; /* Reduce el tamaño del logo */
+  margin: 0; /* Elimina el margen superior del logo */
 }
 
 .opciones {
   display: flex;
-  justify-content: center; /* Centra las opciones horizontalmente */
-  align-items: center; /* Centra las opciones verticalmente */
-}
-
-#logo {
-  width: 200px;
+  flex-wrap: wrap;
+  justify-content: center; /* Justifica horizontalmente las opciones */
+  align-items: center; /* Centra verticalmente las opciones */
 }
 
 .navbar a {
   text-decoration: none;
   color: black;
-  font-size: 25px;
-  margin: 0 20px;
-}
-
-#logo {
-  width: 200px;
+  font-size: 20px;
+  margin: 0 10px;
 }
 
 .container {
@@ -55,144 +57,101 @@ body {
 #Poliza {
   background-color: rgb(155, 30, 30);
   justify-content: center;
-  padding: 1px;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #poliza_texto {
   color: #fff;
   margin: 10px;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #Facturacion {
   background-color: rgb(155, 30, 30);
   justify-content: center;
-  padding: 1px;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #facturacion_texto {
   color: #fff;
   margin: 10px;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 #Poliza_info {
-  padding-left: 40px;
+  padding: 10px;
+  text-align: left; /* Alinea el texto a la izquierda en dispositivos móviles */
 }
 
 .poliza_estado {
-  padding-left: 100px;
+  padding: 10px;
+  text-align: left; /* Alinea el texto a la izquierda en dispositivos móviles */
 }
 
 .Accordions {
-  width: 1750px;
-  padding: 40px;
-  background-color: rgb(217, 215, 215);
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  width: auto;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: left; /* Alinea el texto a la izquierda en dispositivos móviles */
+  background-color: rgb(164, 164, 165);
 }
 
 summary {
   list-style: none;
   cursor: pointer;
-  display: flex; /* Añadimos display flex */
-  justify-content: space-between; /* Colocamos el contenido a la derecha */
-  align-items: center; /* Centramos verticalmente */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(164, 164, 165);
 }
 
 table {
-  width: calc(100% - 40px);
-  margin: 20px;
+  width: 100%;
+  margin: 10px 0;
   border-collapse: collapse;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 th,
 td {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-}
-
-th,
-td:first-child {
-  border-left: 1px solid black;
-}
-
-th,
-td:last-child {
-  border-right: 1px solid black;
+  border: none;
+  padding: 5px;
+  text-align: left;
 }
 
 .info-icon {
-  width: 30px; /* Ajustamos el tamaño de la imagen a 30px para que sea más grande */
-  cursor: pointer; /* Cambia el cursor al puntero al pasar por encima */
+  width: 30px;
+  cursor: pointer;
 }
 
 .info-icon.clicked {
-  transform: rotate(180deg); /* Gira la imagen cuando se hace clic */
-  transition: transform 0.3s; /* Agrega una transición para una animación suave */
+  transform: rotate(180deg);
+  transition: transform 0.3s;
 }
 
 /* Estilos específicos para dispositivos móviles (Media Query) */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    margin: 10px; /* Espacio entre los bordes de la pantalla y el contenedor */
-    text-align: left; /* Alinea el texto a la izquierda */
+    margin: 10px;
+    text-align: left;
   }
 
   .div1,
   .div2 {
-    width: calc(
-      100% - 40px
-    ); /* 100% del ancho disponible menos 40px de margen en ambos lados */
-    padding: 20px; /* Espacio entre los divs y su contenido */
-    margin: 10px; /* Espacio igual en todos los lados */
-    border: 1px solid #ccc; /* Agrega un contorno a los divs */
-    display: inline-block; /* Coloca los divs en una sola fila */
-  }
-
-  #Poliza,
-  #Facturacion {
-    padding: 10px;
-    border-radius: 10px;
-    margin: 10px 0;
-  }
-
-  #poliza_texto,
-  #facturacion_texto {
+    width: calc(100% - 40px);
+    padding: 20px;
     margin: 10px;
-    text-align: left; /* Alinea el texto a la izquierda */
-  }
-
-  #Poliza_info {
-    padding-left: 10px;
-  }
-
-  .poliza_estado {
-    padding-left: 10px;
-  }
-
-  .Accordions {
-    width: auto;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc; /* Agrega un contorno a la sección Accordions */
-    border-radius: 10px;
-  }
-
-  table {
-    width: 100%;
-    margin: 10px 0;
-    border-collapse: collapse;
-    border: 1px solid #ccc; /* Agrega un contorno a la tabla */
-    border-radius: 10px;
-  }
-
-  th,
-  td {
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-left: none;
-    border-right: none;
+    border: 1px solid #ccc;
+    display: inline-block;
   }
 }

@@ -69,7 +69,7 @@ app.get("/modificar-estado-poliza", auth, function (req, res) {
   res.sendFile(indexPath);
 });
 
-app.get("/perfil-usuario", auth, (req, res) => {
+app.get("/perfil-usuarioaB3dFXYZa", auth, (req, res) => {
   if (!req.session.username) {
     res.redirect("/login");
     return;
@@ -174,13 +174,13 @@ app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
   });
 });
 
-app.get("/register", function (req, res) {
+app.get("/registeraB3dFXYZa", function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
   const indexPath = path.join(__dirname, "public", "/HTML/register.html");
   res.sendFile(indexPath);
 });
 
-app.get("/login", function (req, res) {
+app.get("/loginaB3dFXYZa", function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
   const indexPath = path.join(__dirname, "public", "/HTML/login.html");
   res.sendFile(indexPath);
@@ -414,14 +414,14 @@ app.post("/auth", async (req, res) => {
             req.session.loggedin = true;
 
             // Redirige al usuario a la página de perfil después del inicio de sesión
-            res.redirect("/perfil-usuario");
+            res.redirect("/perfil-usuarioaB3dFXYZa");
           } else {
             // Autenticación fallida, redirige a la página de inicio de sesión con una query string
-            res.redirect("/login?error=true");
+            res.redirect("/loginaB3dFXYZa?error=true");
           }
         } else {
           // No se encontró el usuario, redirige al usuario a la página de inicio de sesión
-          res.redirect("/login");
+          res.redirect("/loginaB3dFXYZa");
         }
       }
     });

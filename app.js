@@ -9,6 +9,7 @@ import connection, { dbConfig } from "./db.js";
 import bodyParser from "body-parser";
 import bcryptjs from "bcryptjs";
 import multer from "multer";
+import methodOverride from "method-override";
 
 dotenv.config({ path: "./.env" });
 
@@ -40,6 +41,8 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 
+app.use(methodOverride("_method"));
+
 app.use(express.static(path.join(__dirname, "public/HTML")));
 
 // Configura EJS como motor de plantillas
@@ -65,7 +68,21 @@ app.get("/", auth, function (req, res) {
 
 app.get("/modificar-estado-poliza", auth, function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
-  const indexPath = path.join(__dirname, "public", "/HTML/modificar_estado_poliza.html");
+  const indexPath = path.join(
+    __dirname,
+    "public",
+    "/HTML/modificar_estado_poliza.html"
+  );
+  res.sendFile(indexPath);
+});
+
+app.get("/modificar-poliza", auth, function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(
+    __dirname,
+    "public",
+    "/HTML/modificar_poliza.html"
+  );
   res.sendFile(indexPath);
 });
 
@@ -86,14 +103,23 @@ app.get("/subir-archivos", auth, function (req, res) {
 
 app.get("/eliminar-archivos", auth, function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
-  const indexPath = path.join(__dirname, "public", "/HTML/eliminar_archivos.html");
+  const indexPath = path.join(
+    __dirname,
+    "public",
+    "/HTML/eliminar_archivos.html"
+  );
   res.sendFile(indexPath);
 });
 
 // Ruta para servir documentos PDF
-app.get('/descargar-documento/:nombreDocumento', (req, res) => {
+app.get("/descargar-documento/:nombreDocumento", (req, res) => {
   const nombreDocumento = req.params.nombreDocumento;
-  const rutaDocumento = path.join(__dirname, "public", "/PDF/", nombreDocumento);
+  const rutaDocumento = path.join(
+    __dirname,
+    "public",
+    "/PDF/",
+    nombreDocumento
+  );
 
   // Utiliza el módulo `express.static` para servir el archivo
   res.download(rutaDocumento, nombreDocumento, (err) => {
@@ -153,7 +179,7 @@ app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
       const facturaciones = result.map((row) => ({
         cantidadFacturacion: row.cantidadFacturacion,
         fechaFacturacion: row.fechaFacturacion,
-        archivo_pdf: row.archivo_pdf
+        archivo_pdf: row.archivo_pdf,
       }));
 
       // Ahora, necesitas agrupar los datos de conductores en un formato más adecuado
@@ -166,7 +192,11 @@ app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
       }));
 
       // Renderiza tu página HTML con los datos de la póliza y los conductores recuperados.
-      res.render("mostrar_datos", { polizaData: result, conductores, facturaciones });
+      res.render("mostrar_datos", {
+        polizaData: result,
+        conductores,
+        facturaciones,
+      });
     } else {
       // Manejar el caso en el que no se encontró una póliza con el número proporcionado.
       res.status(404).send("Póliza no encontrada");
@@ -265,7 +295,9 @@ app.post("/registrar", upload.single("archivo_pdf"), (req, res) => {
                 connection.query(queryConductor2, (err, resultConductor2) => {
                   if (err) {
                     console.error("Error al insertar en Conductor 2:", err);
-                    return res.status(500).send("Error al insertar en Conductor 2");
+                    return res
+                      .status(500)
+                      .send("Error al insertar en Conductor 2");
                   }
 
                   // Verificar si se proporcionaron datos para el tercer conductor
@@ -276,17 +308,29 @@ app.post("/registrar", upload.single("archivo_pdf"), (req, res) => {
                       VALUES (${polizaId}, '${req.body.nombreConductor3}', '${req.body.relacionConductor3}', '${req.body.fechaNacimientoConductor3}', '${req.body.generoConductor3}');
                     `;
 
-                    connection.query(queryConductor3, (err, resultConductor3) => {
-                      if (err) {
-                        console.error("Error al insertar en Conductor 3:", err);
-                        return res.status(500).send("Error al insertar en Conductor 3");
-                      }
+                    connection.query(
+                      queryConductor3,
+                      (err, resultConductor3) => {
+                        if (err) {
+                          console.error(
+                            "Error al insertar en Conductor 3:",
+                            err
+                          );
+                          return res
+                            .status(500)
+                            .send("Error al insertar en Conductor 3");
+                        }
 
-                      console.log("Datos registrados con éxito en la base de datos");
-                      res.status(200).send("Datos registrados con éxito");
-                    });
+                        console.log(
+                          "Datos registrados con éxito en la base de datos"
+                        );
+                        res.status(200).send("Datos registrados con éxito");
+                      }
+                    );
                   } else {
-                    console.log("Datos registrados con éxito en la base de datos");
+                    console.log(
+                      "Datos registrados con éxito en la base de datos"
+                    );
                     res.status(200).send("Datos registrados con éxito");
                   }
                 });
@@ -326,6 +370,93 @@ app.put("/poliza-modificar-estado/:numeroPoliza", function (req, res) {
   });
 });
 
+app.put("/modificar-poliza/:numeroPoliza", upload.single("archivo_pdf"), (req, res) => {
+  const numeroPoliza = req.params.numeroPoliza;
+  const pdfFilename = req.file ? req.file.filename : null;
+
+  try {
+    // Actualiza los datos de la póliza en la base de datos
+    const queryPoliza = `
+      UPDATE Poliza
+      SET
+        estadoPoliza = '${req.body.estadoPoliza}',
+        fechaInicio = '${req.body.fechaInicio}',
+        fechaFinalizacion = '${req.body.fechaFinalizacion}'
+      WHERE numeroPoliza = '${numeroPoliza}';
+    `;
+
+    connection.query(queryPoliza, (err, resultPoliza) => {
+      if (err) {
+        console.error("Error al actualizar la póliza:", err);
+        return res.status(500).send("Error al actualizar la póliza");
+      }
+
+      // Actualiza los datos del propietario
+      const queryPropietario = `
+        UPDATE Propietario
+        SET
+          nombreCompleto = '${req.body.nombreCompleto}',
+          correoElectronico = '${req.body.correoElectronico}',
+          telefono = '${req.body.telefono}',
+          direccionPostal = '${req.body.direccionPostal}',
+          direccionGaraje = '${req.body.direccionGaraje}'
+        WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
+      `;
+
+      connection.query(queryPropietario, (err, resultPropietario) => {
+        if (err) {
+          console.error("Error al actualizar el propietario:", err);
+          return res.status(500).send("Error al actualizar el propietario");
+        }
+
+        // Actualiza los datos del vehículo
+        const queryVehiculo = `
+          UPDATE Vehiculos
+          SET
+            anoVehiculo = ${req.body.anoVehiculo},
+            marcaVehiculo = '${req.body.marcaVehiculo}',
+            modeloVehiculo = '${req.body.modeloVehiculo}',
+            vinVehiculo = '${req.body.vinVehiculo}',
+            tipoCuerpoVehiculo = '${req.body.tipoCuerpoVehiculo}',
+            arrendamientoVehiculo = '${req.body.arrendamientoVehiculo}'
+          WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
+        `;
+
+        connection.query(queryVehiculo, (err, resultVehiculo) => {
+          if (err) {
+            console.error("Error al actualizar el vehículo:", err);
+            return res.status(500).send("Error al actualizar el vehículo");
+          }
+
+          // Actualiza los datos de facturación
+          const queryFacturacion = `
+            UPDATE Facturacion
+            SET
+              cantidadFacturacion = ${req.body.cantidadFacturacion},
+              fechaFacturacion = '${req.body.fechaFacturacion}',
+              archivo_pdf = '${pdfFilename}'
+            WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
+          `;
+
+          connection.query(queryFacturacion, (err, resultFacturacion) => {
+            if (err) {
+              console.error("Error al actualizar la facturación:", err);
+              return res.status(500).send("Error al actualizar la facturación");
+            }
+
+            console.log("Datos actualizados con éxito en la base de datos");
+            res.status(200).send("Datos actualizados con éxito");
+          });
+        });
+      });
+    });
+  } catch (error) {
+    console.error("Error general:", error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+
 //Eliminar Poliza
 app.delete("/eliminar/:numeroPoliza", (req, res) => {
   const numeroPoliza = req.params.numeroPoliza;
@@ -363,24 +494,36 @@ app.delete("/eliminar/:numeroPoliza", (req, res) => {
             } else {
               connection.query(queryEliminarFacturacion, (errFacturacion) => {
                 if (errFacturacion) {
-                  console.error("Error al eliminar facturación:", errFacturacion);
+                  console.error(
+                    "Error al eliminar facturación:",
+                    errFacturacion
+                  );
                   res.status(500).send("Error interno del servidor");
                 } else {
-                  connection.query(queryEliminarPropietario, (errPropietario) => {
-                    if (errPropietario) {
-                      console.error("Error al eliminar propietario:", errPropietario);
-                      res.status(500).send("Error interno del servidor");
-                    } else {
-                      connection.query(queryEliminarPoliza, (errPoliza) => {
-                        if (errPoliza) {
-                          console.error("Error al eliminar póliza:", errPoliza);
-                          res.status(500).send("Error interno del servidor");
-                        } else {
-                          res.status(200).send("Datos eliminados con éxito");
-                        }
-                      });
+                  connection.query(
+                    queryEliminarPropietario,
+                    (errPropietario) => {
+                      if (errPropietario) {
+                        console.error(
+                          "Error al eliminar propietario:",
+                          errPropietario
+                        );
+                        res.status(500).send("Error interno del servidor");
+                      } else {
+                        connection.query(queryEliminarPoliza, (errPoliza) => {
+                          if (errPoliza) {
+                            console.error(
+                              "Error al eliminar póliza:",
+                              errPoliza
+                            );
+                            res.status(500).send("Error interno del servidor");
+                          } else {
+                            res.status(200).send("Datos eliminados con éxito");
+                          }
+                        });
+                      }
                     }
-                  });
+                  );
                 }
               });
             }
@@ -396,35 +539,42 @@ app.post("/auth", async (req, res) => {
   const pass = req.body.password;
 
   if (user && pass) {
-    connection.query("SELECT * FROM User WHERE username = ?", [user], async (error, results) => {
-      if (error) {
-        // Maneja el error de la consulta de base de datos, por ejemplo, enviando una respuesta de error.
-        res.status(500).send("Error interno del servidor");
-      } else {
-        if (results && results.length > 0) {
-          const isPasswordValid = await bcryptjs.compare(pass, results[0].password);
-
-          if (isPasswordValid) {
-            const userInfo = {
-              id: results[0].id,
-              username: results[0].username,
-            };
-
-            req.session.username = userInfo;
-            req.session.loggedin = true;
-
-            // Redirige al usuario a la página de perfil después del inicio de sesión
-            res.redirect("/perfil-usuarioaB3dFXYZa");
-          } else {
-            // Autenticación fallida, redirige a la página de inicio de sesión con una query string
-            res.redirect("/loginaB3dFXYZa?error=true");
-          }
+    connection.query(
+      "SELECT * FROM User WHERE username = ?",
+      [user],
+      async (error, results) => {
+        if (error) {
+          // Maneja el error de la consulta de base de datos, por ejemplo, enviando una respuesta de error.
+          res.status(500).send("Error interno del servidor");
         } else {
-          // No se encontró el usuario, redirige al usuario a la página de inicio de sesión
-          res.redirect("/loginaB3dFXYZa");
+          if (results && results.length > 0) {
+            const isPasswordValid = await bcryptjs.compare(
+              pass,
+              results[0].password
+            );
+
+            if (isPasswordValid) {
+              const userInfo = {
+                id: results[0].id,
+                username: results[0].username,
+              };
+
+              req.session.username = userInfo;
+              req.session.loggedin = true;
+
+              // Redirige al usuario a la página de perfil después del inicio de sesión
+              res.redirect("/perfil-usuarioaB3dFXYZa");
+            } else {
+              // Autenticación fallida, redirige a la página de inicio de sesión con una query string
+              res.redirect("/loginaB3dFXYZa?error=true");
+            }
+          } else {
+            // No se encontró el usuario, redirige al usuario a la página de inicio de sesión
+            res.redirect("/loginaB3dFXYZa");
+          }
         }
       }
-    });
+    );
   } else {
     res.send("Por favor ingrese un usuario y contraseña");
   }

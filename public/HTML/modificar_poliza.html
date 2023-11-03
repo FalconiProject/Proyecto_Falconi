@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modificar Póliza</title>
+    <link rel="stylesheet" href="/CSS/modificar_poliza.css">
+  </head>
+  <body>
+    <h1>Modificar Póliza</h1>
+    <form id="modifyForm">
+      <input type="hidden" name="_method" value="PUT" />
+
+      <label for="numeroPoliza">Número de Póliza:</label>
+      <input type="text" id="numeroPoliza" name="numeroPoliza" required />
+
+      <label for="estadoPoliza">Nuevo Estado de Póliza:</label>
+      <select id="estadoPoliza" name="estadoPoliza" required>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Approved">Approved</option>
+      </select>
+
+      <label for="fechaInicio">Fecha de Inicio:</label>
+      <input type="date" id="fechaInicio" name="fechaInicio" required />
+
+      <label for="fechaFinalizacion">Fecha de Finalización:</label>
+      <input type="date" id="fechaFinalizacion" name="fechaFinalizacion" required />
+
+      <label for="nombreCompleto">Nombre Completo del Propietario:</label>
+      <input type="text" id="nombreCompleto" name="nombreCompleto" required />
+
+      <label for="correoElectronico">Correo Electrónico del Propietario:</label>
+      <input type="email" id="correoElectronico" name="correoElectronico" required />
+
+      <label for="telefono">Teléfono del Propietario:</label>
+      <input type="tel" id="telefono" name="telefono" required />
+
+      <label for="direccionPostal">Dirección Postal del Propietario:</label>
+      <input type="text" id="direccionPostal" name="direccionPostal" required />
+
+      <label for="direccionGaraje">Dirección de Garaje:</label>
+      <input type="text" id="direccionGaraje" name="direccionGaraje" />
+
+      <label for="anoVehiculo">Año del Vehículo:</label>
+      <input type="number" id="anoVehiculo" name="anoVehiculo" required />
+
+      <label for="marcaVehiculo">Marca del Vehículo:</label>
+      <input type="text" id="marcaVehiculo" name="marcaVehiculo" required />
+
+      <label for="modeloVehiculo">Modelo del Vehículo:</label>
+      <input type="text" id="modeloVehiculo" name="modeloVehiculo" required />
+
+      <label for="vinVehiculo">Número de VIN del Vehículo:</label>
+      <input type="text" id="vinVehiculo" name="vinVehiculo" required />
+
+      <label for="tipoCuerpoVehiculo">Tipo de Cuerpo del Vehículo:</label>
+      <input type="text" id="tipoCuerpoVehiculo" name="tipoCuerpoVehiculo" required />
+
+      <label for="arrendamientoVehiculo">Arrendamiento del Vehículo:</label>
+      <input type="text" id="arrendamientoVehiculo" name="arrendamientoVehiculo" required />
+
+      <label for="cantidadFacturacion">Cantidad:</label>
+      <input type="number" id="cantidadFacturacion" name="cantidadFacturacion" required />
+
+      <label for="fechaFacturacion">Fecha de Facturación:</label>
+      <input type="date" id="fechaFacturacion" name="fechaFacturacion" required />
+
+      <label for="archivo_pdf">Archivo PDF:</label>
+      <input type="file" id="archivo_pdf" name="archivo_pdf" required />
+
+      <button type="submit">Modificar Póliza</button>
+    </form>
+    <script>
+      document.getElementById("modifyForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Obtiene los datos del formulario
+        const formData = new FormData(this);
+
+        // Realiza la solicitud AJAX para modificar la póliza
+        fetch(`/modificar-poliza/${formData.get('numeroPoliza')}`, {
+          method: "PUT",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              // La póliza se modificó con éxito
+              alert("Póliza modificada con éxito");
+            } else {
+              // Ocurrió un error al modificar la póliza
+              alert("Error al modificar la póliza");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+    </script>
+  </body>
+</html>

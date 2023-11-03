@@ -21,141 +21,145 @@
     </div>
     <!-- Contenido de la página -->
 
-    <div id="Poliza">
-      <h1 id="poliza_texto">Policy</h1>
-    </div>
-
-    <div id="Poliza_info">
-      <p>
-        Here you will find important information about your Falcon insurance
-        policy.
-        <br />
-        If you have a new policy with Falcon, please click here to update your
-        account and add the most recent policy, or select 'more' in the menu.
-        <br />
-        Please contact your agent to reset or renew your policy.
-      </p>
-    </div>
-
-    <div class="poliza_estado">
-      <p>Policy Status: <b><%= polizaData[0].estadoPoliza %></b></p>
-      <p>Policy Number: <b><%= polizaData[0].numeroPoliza %></b></p>
-      <% var startDate = new Date(polizaData[0].fechaInicio); %>
-      <% var endDate = new Date(polizaData[0].fechaFinalizacion); %>
-
-      <p>Term: <b><%= startDate.toLocaleDateString('en-US') %> - <%= endDate.toLocaleDateString('en-US') %></b></p>
-    </div>
-
-    <div class="container">
-      <div class="div1">
-        <h2>Policy Owner</h2>
+    <div id="Poliza1">
+      <div id="Poliza">
+        <h1 id="poliza_texto">Policy</h1>
+      </div>
+  
+      <div id="Poliza_info">
         <p>
-          Full Name <br />
-          <b><%= polizaData[0].nombreCompleto %></b>
-        </p>
-        <p>
-          Email <br />
-          <b><%= polizaData[0].correoElectronico %></b>
-        </p>
-        <p>
-          Phone <br />
-          <b><%= polizaData[0].telefono %></b>
-        </p>
-        <p>
-          Mailing Address <br />
-          <b><%= polizaData[0].direccionPostal %></b>
-        </p>
-        <p>
-          Garage Address <br />
-          <b><%= polizaData[0].direccionGaraje %></b>
+          Here you will find important information about your Falcon insurance
+          policy.
+          <br />
+          If you have a new policy with Falcon, please click here to update your
+          account and add the most recent policy, or select 'more' in the menu.
+          <br />
+          Please contact your agent to reset or renew your policy.
         </p>
       </div>
-      <div class="div2">
-        <h2>
-          This policy provides at least the minimum amounts of liability <br />
-          insurance required by the Texas Motor Vehicle Safety Responsibility
-          <br />
-          Act for specified vehicle and named insured and may provide <br />
-          coverage for other persons and other vehicles as provided by the
-          <br />
-          insurance policy.
-        </h2>
+  
+      <div class="poliza_estado">
+        <p>Policy Status: <b><%= polizaData[0].estadoPoliza %></b></p>
+        <p>Policy Number: <b><%= polizaData[0].numeroPoliza %></b></p>
+        <% var startDate = new Date(polizaData[0].fechaInicio); %>
+        <% var endDate = new Date(polizaData[0].fechaFinalizacion); %>
+  
+        <p>Term: <b><%= startDate.toLocaleDateString('en-US') %> - <%= endDate.toLocaleDateString('en-US') %></b></p>
       </div>
-    </div>
-    
-    <!-- Sección para conductores -->
-    <% for (let i = 0; i < conductores.length; i++) { %>
+  
+      <div class="container">
+        <div class="div1">
+          <h2>Policy Owner</h2>
+          <p>
+            Full Name <br />
+            <b><%= polizaData[0].nombreCompleto %></b>
+          </p>
+          <p>
+            Email <br />
+            <b><%= polizaData[0].correoElectronico %></b>
+          </p>
+          <p>
+            Phone <br />
+            <b><%= polizaData[0].telefono %></b>
+          </p>
+          <p>
+            Mailing Address <br />
+            <b><%= polizaData[0].direccionPostal %></b>
+          </p>
+          <p>
+            Garage Address <br />
+            <b><%= polizaData[0].direccionGaraje %></b>
+          </p>
+        </div>
+        <div class="div2">
+          <h2>
+            This policy provides at least the minimum amounts of liability <br />
+            insurance required by the Texas Motor Vehicle Safety Responsibility
+            <br />
+            Act for specified vehicle and named insured and may provide <br />
+            coverage for other persons and other vehicles as provided by the
+            <br />
+            insurance policy.
+          </h2>
+        </div>
+      </div>
+      
+      <!-- Sección para conductores -->
+      <% for (let i = 0; i < conductores.length; i++) { %>
+        <section class="Accordions">
+          <div class="accordion">
+            <details>
+              <summary>
+                Drivers <br />
+                <%= i + 1 %>. <%= conductores[i].nombreConductor %> (Insured)
+                <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+                <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
+              </summary>
+              <p>
+                Relationship: <b><%= conductores[i].relacionConductor %></b> <br />
+                Date of Birth: <b><%= new Date(conductores[i].fechaNacimientoConductor).toLocaleDateString('en-US') %></b>
+                <br />
+                Gender: <b><%= conductores[i].generoConductor %></b>
+              </p>
+            </details>
+          </div>
+        </section>
+        <br>
+      <% } %>
+        <br>
       <section class="Accordions">
         <div class="accordion">
           <details>
             <summary>
-              Drivers <br />
-              <%= i + 1 %>. <%= conductores[i].nombreConductor %> (Insured)
+              Vehicles <br />
+              1. <%= polizaData[0].anoVehiculo %> <%= polizaData[0].marcaVehiculo %> <%= polizaData[0].modeloVehiculo %>
               <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
               <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
             </summary>
             <p>
-              Relationship: <b><%= conductores[i].relacionConductor %></b> <br />
-              Date of Birth: <b><%= new Date(conductores[i].fechaNacimientoConductor).toLocaleDateString('en-US') %></b>
+              Year: <b><%= polizaData[0].anoVehiculo %></b> <br />
+              Make: <b><%= polizaData[0].marcaVehiculo %></b> <br />
+              Model: <b><%= polizaData[0].modeloVehiculo %></b> <br />
+              VIN #: <b><%= polizaData[0].vinVehiculo %></b> <br />
+              Body Type: <b><%= polizaData[0].tipoCuerpoVehiculo %></b>
               <br />
-              Gender: <b><%= conductores[i].generoConductor %></b>
+              Lease: <b><%= polizaData[0].arrendamientoVehiculo %></b>
             </p>
           </details>
         </div>
       </section>
-      <br>
-    <% } %>
-      <br>
-    <section class="Accordions">
-      <div class="accordion">
-        <details>
-          <summary>
-            Vehicles <br />
-            1. <%= polizaData[0].anoVehiculo %> <%= polizaData[0].marcaVehiculo %> <%= polizaData[0].modeloVehiculo %>
-            <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
-            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
-          </summary>
-          <p>
-            Year: <b><%= polizaData[0].anoVehiculo %></b> <br />
-            Make: <b><%= polizaData[0].marcaVehiculo %></b> <br />
-            Model: <b><%= polizaData[0].modeloVehiculo %></b> <br />
-            VIN #: <b><%= polizaData[0].vinVehiculo %></b> <br />
-            Body Type: <b><%= polizaData[0].tipoCuerpoVehiculo %></b>
-            <br />
-            Lease: <b><%= polizaData[0].arrendamientoVehiculo %></b>
-          </p>
-        </details>
-      </div>
-    </section>
+    </div>
     <br />
     <br />
     <!-- Sección para facturación -->
-    <div id="Facturacion">
-      <h1 id="facturacion_texto">Billing</h1>
-    </div>
-    <br />
-    <section class="Accordions">
-      <div class "accordion">
-        <details>
-          <summary>
-            Payment Receipt
-            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
-          </summary>
-          <table>
-            <tr>
-              <td>X</td>
-              <td><b>Amount</b></td>
-              <td><b>Date</b></td>
-            </tr>
-            <tr>
-              <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
-              <td><%= facturaciones[0].cantidadFacturacion %></td>
-              <td><%= new Date(facturaciones[0].fechaFacturacion).toLocaleDateString('en-US') %></td>
-            </tr>
-          </table>
-        </details>
+    <div id="Facturacion1">
+      <div id="Facturacion">
+        <h1 id="facturacion_texto">Billing</h1>
       </div>
-    </section>
+      <br />
+      <section class="Accordions">
+        <div class "accordion">
+          <details>
+            <summary>
+              Payment Receipt
+              <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
+            </summary>
+            <table>
+              <tr>
+                <td>X</td>
+                <td><b>Amount</b></td>
+                <td><b>Date</b></td>
+              </tr>
+              <tr>
+                <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
+                <td><%= facturaciones[0].cantidadFacturacion %></td>
+                <td><%= new Date(facturaciones[0].fechaFacturacion).toLocaleDateString('en-US') %></td>
+              </tr>
+            </table>
+          </details>
+        </div>
+      </section>
+    </div>
     <script src="/JS/mostrar_datos.js"></script>
   </body>
 </html>

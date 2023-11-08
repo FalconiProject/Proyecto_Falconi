@@ -375,86 +375,134 @@ app.put("/modificar-poliza/:numeroPoliza", upload.single("archivo_pdf"), (req, r
   const pdfFilename = req.file ? req.file.filename : null;
 
   try {
-    // Actualiza los datos de la póliza en la base de datos
-    const queryPoliza = `
-      UPDATE Poliza
-      SET
-        estadoPoliza = '${req.body.estadoPoliza}',
-        fechaInicio = '${req.body.fechaInicio}',
-        fechaFinalizacion = '${req.body.fechaFinalizacion}'
-      WHERE numeroPoliza = '${numeroPoliza}';
-    `;
+    const updatesPoliza = []; // Actualizaciones en la tabla "Poliza"
 
-    connection.query(queryPoliza, (err, resultPoliza) => {
-      if (err) {
-        console.error("Error al actualizar la póliza:", err);
-        return res.status(500).send("Error al actualizar la póliza");
-      }
+    // Actualizar campos en la tabla "Poliza"
+    if (req.body.estadoPoliza) {
+      updatesPoliza.push(`estadoPoliza = '${req.body.estadoPoliza}'`);
+    }
+    if (req.body.fechaInicio) {
+      updatesPoliza.push(`fechaInicio = '${req.body.fechaInicio}'`);
+    }
+    if (req.body.fechaFinalizacion) {
+      updatesPoliza.push(`fechaFinalizacion = '${req.body.fechaFinalizacion}'`);
+    }
 
-      // Actualiza los datos del propietario
-      const queryPropietario = `
-        UPDATE Propietario
-        SET
-          nombreCompleto = '${req.body.nombreCompleto}',
-          correoElectronico = '${req.body.correoElectronico}',
-          telefono = '${req.body.telefono}',
-          direccionPostal = '${req.body.direccionPostal}',
-          direccionGaraje = '${req.body.direccionGaraje}'
-        WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
-      `;
+    // Construir la consulta SQL para actualizar la tabla "Poliza"
+    if (updatesPoliza.length > 0) {
+      const updateQueryPoliza = `UPDATE Poliza SET ${updatesPoliza.join(", ")} WHERE numeroPoliza = '${numeroPoliza}'`;
 
-      connection.query(queryPropietario, (err, resultPropietario) => {
+      connection.query(updateQueryPoliza, (err, resultPoliza) => {
+        if (err) {
+          console.error("Error al actualizar la póliza:", err);
+          return res.status(500).send("Error al actualizar la póliza");
+        }
+
+        console.log("Datos de póliza actualizados con éxito en la base de datos");
+      });
+    }
+
+    // Actualizar campos en la tabla "Propietario"
+    const updatesPropietario = [];
+    if (req.body.nombreCompleto) {
+      updatesPropietario.push(`nombreCompleto = '${req.body.nombreCompleto}'`);
+    }
+    if (req.body.correoElectronico) {
+      updatesPropietario.push(`correoElectronico = '${req.body.correoElectronico}'`);
+    }
+    if (req.body.telefono) {
+      updatesPropietario.push(`telefono = '${req.body.telefono}'`);
+    }
+    if (req.body.direccionPostal) {
+      updatesPropietario.push(`direccionPostal = '${req.body.direccionPostal}'`);
+    }
+    if (req.body.direccionGaraje) {
+      updatesPropietario.push(`direccionGaraje = '${req.body.direccionGaraje}'`);
+    }
+
+    // Construir la consulta SQL para actualizar la tabla "Propietario"
+    if (updatesPropietario.length > 0) {
+      const updateQueryPropietario = `UPDATE Propietario SET ${updatesPropietario.join(", ")} WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}')`;
+
+      connection.query(updateQueryPropietario, (err, resultPropietario) => {
         if (err) {
           console.error("Error al actualizar el propietario:", err);
           return res.status(500).send("Error al actualizar el propietario");
         }
 
-        // Actualiza los datos del vehículo
-        const queryVehiculo = `
-          UPDATE Vehiculos
-          SET
-            anoVehiculo = ${req.body.anoVehiculo},
-            marcaVehiculo = '${req.body.marcaVehiculo}',
-            modeloVehiculo = '${req.body.modeloVehiculo}',
-            vinVehiculo = '${req.body.vinVehiculo}',
-            tipoCuerpoVehiculo = '${req.body.tipoCuerpoVehiculo}',
-            arrendamientoVehiculo = '${req.body.arrendamientoVehiculo}'
-          WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
-        `;
-
-        connection.query(queryVehiculo, (err, resultVehiculo) => {
-          if (err) {
-            console.error("Error al actualizar el vehículo:", err);
-            return res.status(500).send("Error al actualizar el vehículo");
-          }
-
-          // Actualiza los datos de facturación
-          const queryFacturacion = `
-            UPDATE Facturacion
-            SET
-              cantidadFacturacion = ${req.body.cantidadFacturacion},
-              fechaFacturacion = '${req.body.fechaFacturacion}',
-              archivo_pdf = '${pdfFilename}'
-            WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}');
-          `;
-
-          connection.query(queryFacturacion, (err, resultFacturacion) => {
-            if (err) {
-              console.error("Error al actualizar la facturación:", err);
-              return res.status(500).send("Error al actualizar la facturación");
-            }
-
-            console.log("Datos actualizados con éxito en la base de datos");
-            res.status(200).send("Datos actualizados con éxito");
-          });
-        });
+        console.log("Datos de propietario actualizados con éxito en la base de datos");
       });
-    });
+    }
+
+    // Actualizar campos en la tabla "Vehiculos"
+    const updatesVehiculos = [];
+    if (req.body.anoVehiculo) {
+      updatesVehiculos.push(`anoVehiculo = '${req.body.anoVehiculo}'`);
+    }
+    if (req.body.marcaVehiculo) {
+      updatesVehiculos.push(`marcaVehiculo = '${req.body.marcaVehiculo}'`);
+    }
+    if (req.body.modeloVehiculo) {
+      updatesVehiculos.push(`modeloVehiculo = '${req.body.modeloVehiculo}'`);
+    }
+    if (req.body.vinVehiculo) {
+      updatesVehiculos.push(`vinVehiculo = '${req.body.vinVehiculo}'`);
+    }
+    if (req.body.tipoCuerpoVehiculo) {
+      updatesVehiculos.push(`tipoCuerpoVehiculo = '${req.body.tipoCuerpoVehiculo}'`);
+    }
+    if (req.body.arrendamientoVehiculo) {
+      updatesVehiculos.push(`arrendamientoVehiculo = '${req.body.arrendamientoVehiculo}'`);
+    }
+
+    // Construir la consulta SQL para actualizar la tabla "Vehiculos"
+    if (updatesVehiculos.length > 0) {
+      const updateQueryVehiculos = `UPDATE Vehiculos SET ${updatesVehiculos.join(", ")} WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}')`;
+
+      connection.query(updateQueryVehiculos, (err, resultVehiculos) => {
+        if (err) {
+          console.error("Error al actualizar los vehículos:", err);
+          return res.status(500).send("Error al actualizar los vehículos");
+        }
+
+        console.log("Datos de vehículos actualizados con éxito en la base de datos");
+      });
+    }
+
+    // Actualizar campos en la tabla "Facturacion"
+    const updatesFacturacion = [];
+    if (req.body.cantidadFacturacion) {
+      updatesFacturacion.push(`cantidadFacturacion = '${req.body.cantidadFacturacion}'`);
+    }
+    if (req.body.fechaFacturacion) {
+      updatesFacturacion.push(`fechaFacturacion = '${req.body.fechaFacturacion}'`);
+    }
+    if (pdfFilename !== null) {
+      updatesFacturacion.push(`archivo_pdf = '${pdfFilename}'`);
+    }
+
+    // Construir la consulta SQL para actualizar la tabla "Facturacion"
+    if (updatesFacturacion.length > 0) {
+      const updateQueryFacturacion = `UPDATE Facturacion SET ${updatesFacturacion.join(", ")} WHERE idPoliza = (SELECT idPoliza FROM Poliza WHERE numeroPoliza = '${numeroPoliza}')`;
+
+      connection.query(updateQueryFacturacion, (err, resultFacturacion) => {
+        if (err) {
+          console.error("Error al actualizar la facturación:", err);
+          return res.status(500).send("Error al actualizar la facturación");
+        }
+
+        console.log("Datos de facturación actualizados con éxito en la base de datos");
+      });
+    }
+
+    // Finalmente, responder al cliente
+    res.status(200).send("Datos actualizados con éxito");
   } catch (error) {
     console.error("Error general:", error);
     res.status(500).send("Error interno del servidor");
   }
 });
+
 
 
 //Eliminar Poliza

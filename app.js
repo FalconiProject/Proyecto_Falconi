@@ -101,6 +101,18 @@ app.get("/subir-archivos", auth, function (req, res) {
   res.sendFile(indexPath);
 });
 
+app.get("/agregar-conductores", auth, function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/agregar_conductores.html");
+  res.sendFile(indexPath);
+});
+
+app.get("/eliminar-conductores", auth, function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/eliminar_conductores.html");
+  res.sendFile(indexPath);
+});
+
 app.get("/eliminar-archivos", auth, function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
   const indexPath = path.join(
@@ -578,6 +590,84 @@ app.delete("/eliminar/:numeroPoliza", (req, res) => {
           });
         }
       });
+    }
+  });
+});
+
+app.delete("/eliminar-conductores/:numeroPoliza", (req, res) => {
+  const numeroPoliza = req.params.numeroPoliza;
+
+  // Primero, obtén el ID de la póliza que coincida con el número de póliza proporcionado
+  const queryBuscarPoliza = `
+    SELECT idPoliza FROM Poliza WHERE numeroPoliza = ?;
+  `;
+
+  connection.query(queryBuscarPoliza, [numeroPoliza], (err, resultsBuscarPoliza) => {
+    if (err) {
+      console.error("Error al buscar la póliza:", err);
+      res.status(500).send("Error interno del servidor");
+    } else if (resultsBuscarPoliza.length === 0) {
+      res.status(404).send("Póliza no encontrada");
+    } else {
+      const polizaId = resultsBuscarPoliza[0].idPoliza;
+
+      // Luego, elimina los registros de conductores relacionados a la póliza
+      const queryEliminarConductores = `DELETE FROM Conductores WHERE idPoliza = ?`;
+
+      connection.query(queryEliminarConductores, [polizaId], (errConductores) => {
+        if (errConductores) {
+          console.error("Error al eliminar conductores:", errConductores);
+          res.status(500).send("Error interno del servidor");
+        } else {
+          res.status(200).send("Conductores eliminados con éxito");
+        }
+      });
+    }
+  });
+});
+
+app.post("/agregar-conductor", (req, res) => {
+  const data = req.body;
+
+  // Realiza una consulta SQL para buscar el idPoliza correspondiente al número de póliza
+  const buscarPolizaQuery = "SELECT idPoliza FROM Poliza WHERE numeroPoliza = ?";
+  
+  connection.query(buscarPolizaQuery, [data.numeroPoliza], (err, results) => {
+    if (err) {
+      console.error("Error al buscar póliza:", err);
+      res.status(500).send("Error al buscar póliza");
+    } else {
+      if (results.length > 0) {
+        // Se encontró una póliza con el número de póliza proporcionado
+        const idPoliza = results[0].idPoliza;
+
+        // Realiza una consulta SQL para insertar el conductor relacionado a la póliza
+        const insertarConductorQuery = `
+          INSERT INTO Conductores (idPoliza, nombreConductor, relacionConductor, fechaNacimientoConductor, generoConductor)
+          VALUES (?, ?, ?, ?, ?);
+        `;
+
+        connection.query(
+          insertarConductorQuery,
+          [
+            idPoliza, // Utiliza el idPoliza obtenido de la consulta anterior
+            data.nombreConductor,
+            data.relacionConductor,
+            data.fechaNacimientoConductor,
+            data.generoConductor,
+          ],
+          (err, result) => {
+            if (err) {
+              console.error("Error al agregar conductor:", err);
+              res.status(500).send("Error al agregar conductor");
+            } else {
+              res.status(200).send("Conductor agregado con éxito");
+            }
+          }
+        );
+      } else {
+        res.status(404).send("Póliza no encontrada");
+      }
     }
   });
 });

@@ -81,6 +81,20 @@ body {
   font-size: 20px;
 }
 
+/* Agrega estos estilos al final de tu archivo CSS */
+.search-text {
+  color: #ffffff; /* Color del texto */
+  font-size: 18px; /* Tamaño de fuente */
+  margin: 10px 0; /* Márgenes superior e inferior */
+  text-align: center; /* Alinea el texto al centro */
+  display: inline; /* Hace que el fondo se ajuste al texto */
+  padding: 5px 10px; /* Espaciado dentro del fondo negro */
+  background: #000; /* Color de fondo negro */
+  border-radius: 5px; /* Borde redondeado */
+  width: 400px; /* Ancho similar al de la barra de búsqueda */
+  margin: 0 auto; /* Centra horizontalmente */
+}
+
 /* Estilos específicos para dispositivos móviles */
 @media screen and (max-width: 768px) {
   body {
@@ -100,5 +114,9 @@ body {
 
   #search-button {
     font-size: 16px;
+  }
+
+  .search-text {
+    font-size: 16px; /* Ajusta el tamaño de fuente en dispositivos móviles */
   }
 }

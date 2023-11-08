@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario para Eliminar Conductores</title>
+  <link rel="stylesheet" href="/CSS/eliminar_archivos.css">
+</head>
+<body>
+  <h1>Eliminar Conductores Relacionados a una Póliza</h1>
+  <form id="deleteConductoresForm">
+    <label for="numeroPoliza">Número de Póliza:</label>
+    <input type="text" id="numeroPoliza" name="numeroPoliza" required>
+    <button type="submit">Eliminar Conductores</button>
+  </form>
+  <div id="message"></div>
+
+  <script>
+    document.getElementById('deleteConductoresForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const numeroPoliza = document.getElementById('numeroPoliza').value;
+      const message = document.getElementById('message');
+
+      fetch(`/eliminar-conductores/${numeroPoliza}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            message.innerHTML = 'Conductores eliminados con éxito';
+          } else if (response.status === 404) {
+            message.innerHTML = 'Póliza no encontrada';
+          } else {
+            message.innerHTML = 'Error interno del servidor';
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          message.innerHTML = 'Error interno del servidor';
+        });
+    });
+  </script>
+</body>
+</html>

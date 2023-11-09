@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/CSS/index.css" />
     <title>Falconi-Insurance Inicio</title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Barra de Navegación -->
     <div class="navbar">
-        <div class="contenedor_logo">
-            <img src="/IMG/falcon_logo.png" alt="" id="logo" />
-        </div>
-        <div class="opciones">
-            <a href="/"><b>Homepage</b></a>
-        </div>
+      <div class="contenedor_logo">
+        <img src="/IMG/falcon_logo.png" alt="" id="logo" />
+      </div>
+      <div class="opciones">
+        <a href="/"><b>Homepage</b></a>
+      </div>
     </div>
 
-    <form id="search-form" action="/mostrar-datos/" method="GET">
-        <div class="search-container">
-            <input
-                type="text"
-                class="search-box"
-                name="q"
-                id="search-input"
-                placeholder="Search..."
-            />
-            <br />
-            <input type="submit" value="SEARCH" id="search-button" onclick="return validateSearch();">
-        </div>
+    <form id="search-form" method="GET" onsubmit="return handleSearch();">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-box"
+          name="q"
+          id="search-input"
+          placeholder="Search..."
+          oninput="validateSearch(this)"
+          required
+        />
+        <br />
+        <p class="search-text">
+          Please remember to remove the "-" when searching for the document by
+          the <br />
+          "Policy Number".
+        </p>
+        <br />
+        <input
+          type="submit"
+          value="SEARCH"
+          id="search-button"
+        />
+      </div>
     </form>
-    <p class="search-text">Please remember to remove the "-" when searching for the document by the <br>
-      "Policy Number".</p>
-
 
     <script>
-        // Función para validar el campo de búsqueda antes de enviar el formulario
-        function validateSearch() {
-            var searchTerm = document.getElementById("search-input").value;
-            if (searchTerm.trim() === "") {
-                // Muestra un mensaje de error o realiza una acción apropiada
-                alert("Por favor, ingrese el 'Numero de Poliza' o el 'Numero de VIN'.");
-                return false; // Evita el envío del formulario
-            }
-            return true; // Permite el envío del formulario si se ingresó un término de búsqueda
-        }
+      // Función para validar el campo de búsqueda
+      function validateSearch(input) {
+        var searchTerm = input.value;
+        var alphanumeric = /^[a-zA-Z0-9\s]*$/; // Expresión regular que permite letras, números y espacios
 
-        // Captura el evento de envío del formulario
-        document
-            .getElementById("search-form")
-            .addEventListener("submit", function (event) {
-                if (!validateSearch()) {
-                    event.preventDefault(); // Previene el envío del formulario si no se ha ingresado un término de búsqueda
-                }
-            });
+        if (!alphanumeric.test(searchTerm)) {
+          input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Elimina caracteres no permitidos
+        }
+      }
+
+      // Función para manejar el envío del formulario
+      function handleSearch() {
+        var searchTerm = document.getElementById('search-input').value;
+        var encodedSearchTerm = encodeURIComponent(searchTerm);
+
+        // Redirige a la URL sin '?q=' agregando el valor de búsqueda codificado
+        window.location.href = '/mostrar-datos/' + encodedSearchTerm;
+        
+        return false; // Evita el envío del formulario
+      }
     </script>
-</body>
+  </body>
 </html>

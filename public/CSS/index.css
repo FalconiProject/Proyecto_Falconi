@@ -89,8 +89,6 @@ body {
   text-align: center; /* Alinea el texto al centro */
   display: inline; /* Hace que el fondo se ajuste al texto */
   padding: 5px 10px; /* Espaciado dentro del fondo negro */
-  background: #000; /* Color de fondo negro */
-  border-radius: 5px; /* Borde redondeado */
   width: 400px; /* Ancho similar al de la barra de búsqueda */
   margin: 0 auto; /* Centra horizontalmente */
 }

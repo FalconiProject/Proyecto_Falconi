@@ -18,20 +18,22 @@ body {
   width: 100%;
   position: fixed;
   top: 0;
-  display: flex; /* Usamos flexbox para centrar verticalmente y horizontalmente */
-  justify-content: space-between; /* Centramos horizontalmente y añadimos espacio entre los elementos */
-  align-items: center; /* Centramos verticalmente */
-  padding: 10px 20px; /* Añade un poco de espacio alrededor del contenido */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .contenedor_logo {
-  margin-right: auto; /* Empuja el logo hacia la izquierda */
+  margin-right: auto;
 }
 
 .opciones {
   display: flex;
-  justify-content: center; /* Centra las opciones horizontalmente */
-  align-items: center; /* Centra las opciones verticalmente */
+  /* Modificado: Cambiado a flex-direction: column para dispositivos móviles */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #logo {
@@ -42,7 +44,7 @@ body {
   text-decoration: none;
   color: red;
   font-size: 20px;
-  margin: 0 20px;
+  margin: 10px 0; /* Modificado: Añade margen en la parte superior e inferior para dispositivos móviles */
 }
 
 #logo {
@@ -81,33 +83,26 @@ body {
   font-size: 20px;
 }
 
-/* Agrega estos estilos al final de tu archivo CSS */
-.search-text {
-  color: #ffffff; /* Color del texto */
-  font-size: 18px; /* Tamaño de fuente */
-  margin: 10px 0; /* Márgenes superior e inferior */
-  text-align: center; /* Alinea el texto al centro */
-  display: inline; /* Hace que el fondo se ajuste al texto */
-  padding: 5px 10px; /* Espaciado dentro del fondo negro */
-  width: 400px; /* Ancho similar al de la barra de búsqueda */
-  margin: 0 auto; /* Centra horizontalmente */
+p{
+  color: #ffffff;
 }
 
 /* Estilos específicos para dispositivos móviles */
 @media screen and (max-width: 768px) {
   body {
-    background-position: right center; /* Cambia la posición de la imagen para centrar la parte superior en dispositivos móviles */
+    background-position: right center;
     background-size: cover;
   }
 
   .search-container {
-    flex-direction: column; /* Cambia a flex-direction: column */
+    flex-direction: column;
+  max-width: 100%; /* Modificado: Ancho al 100% en dispositivos móviles */
   }
 
   .search-box {
-    width: 100%; /* Cambia el ancho a 100% en dispositivos móviles */
-    margin-left: 120px;
-    margin-right: 120px; /* Añade margen en la parte superior e inferior */
+    width: 100%;
+    margin: 10px 0; /* Modificado: Añade margen en la parte superior e inferior */
+    padding: 15px;
   }
 
   #search-button {
@@ -115,6 +110,8 @@ body {
   }
 
   .search-text {
-    font-size: 16px; /* Ajusta el tamaño de fuente en dispositivos móviles */
+    font-size: 16px;
+    width: 100%; /* Modificado: Ancho al 100% en dispositivos móviles */
+    margin: 10px 0; /* Modificado: Añade margen en la parte superior e inferior */
   }
 }

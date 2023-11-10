@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="/CSS/mostrar_datos.css" />
     <title>My Page</title>
   </head>
@@ -11,7 +11,7 @@
     <!-- Barra de Navegación -->
     <div class="navbar">
       <div class="contenedor_logo">
-        <img src="/IMG/falcon_logo.png" alt="" id="logo">
+        <img src="/IMG/falcon_logo.png" alt="" id="logo" />
       </div>
       <div class="opciones">
         <a href="/"><b>Homepage</b></a>
@@ -25,7 +25,7 @@
       <div id="Poliza">
         <h1 id="poliza_texto">Policy</h1>
       </div>
-  
+
       <div id="Poliza_info">
         <p>
           Here you will find important information about your Falcon insurance
@@ -37,89 +37,112 @@
           Please contact your agent to reset or renew your policy.
         </p>
       </div>
-  
+
       <div class="poliza_estado">
-        <p>Policy Status: <b><%= polizaData[0].estadoPoliza %></b></p>
-        <p>Policy Number: <b><%= polizaData[0].numeroPoliza %></b></p>
-        <% var startDate = new Date(polizaData[0].fechaInicio); %>
-        <% var endDate = new Date(polizaData[0].fechaFinalizacion); %>
-  
-        <p>Term: <b><%= startDate.toLocaleDateString('en-US') %> - <%= endDate.toLocaleDateString('en-US') %></b></p>
+        <p>Policy Status: <b><%= polizaData.poliza.estadoPoliza %></b></p>
+        <p>Policy Number: <b><%= polizaData.poliza.numeroPoliza %></b></p>
+        <% var startDate = new Date(polizaData.poliza.fechaInicio); %> <% var
+        endDate = new Date(polizaData.poliza.fechaFinalizacion); %>
+
+        <p>
+          Term:
+          <b
+            ><%= startDate.toLocaleDateString('en-US') %> - <%=
+            endDate.toLocaleDateString('en-US') %></b
+          >
+        </p>
       </div>
-  
+
       <div class="container">
         <div class="div1">
           <h2>Policy Owner</h2>
           <p>
             Full Name <br />
-            <b><%= polizaData[0].nombreCompleto %></b>
+            <b><%= polizaData.poliza.nombreCompleto %></b>
           </p>
           <p>
             Email <br />
-            <b><%= polizaData[0].correoElectronico %></b>
+            <b><%= polizaData.poliza.correoElectronico %></b>
           </p>
           <p>
             Phone <br />
-            <b><%= polizaData[0].telefono %></b>
+            <b><%= polizaData.poliza.telefono %></b>
           </p>
           <p>
             Mailing Address <br />
-            <b><%= polizaData[0].direccionPostal %></b>
+            <b><%= polizaData.poliza.direccionPostal %></b>
           </p>
           <p>
             Garage Address <br />
-            <b><%= polizaData[0].direccionGaraje %></b>
+            <b><%= polizaData.poliza.direccionGaraje %></b>
           </p>
         </div>
         <div class="div2">
           <h2>
-            Here you will find important information about your falcon insurance policy. <br>
-            If you would like a new policy or renew your policy, please contact your agent. <br>
+            Here you will find important information about your falcon insurance
+            policy. <br />
+            If you would like a new policy or renew your policy, please contact
+            your agent. <br />
             And we will attend to it immediately.
           </h2>
         </div>
       </div>
-      
+
       <!-- Sección para conductores -->
-      <% for (let i = 0; i < conductores.length; i++) { %>
-        <section class="Accordions">
-          <div class="accordion">
-            <details>
-              <summary>
-                Drivers <br />
-                <%= i + 1 %>. <%= conductores[i].nombreConductor %> (Insured)
-                <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
-                <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
-              </summary>
-              <p>
-                Relationship: <b><%= conductores[i].relacionConductor %></b> <br />
-                Date of Birth: <b><%= new Date(conductores[i].fechaNacimientoConductor).toLocaleDateString('en-US') %></b>
-                <br />
-                Gender: <b><%= conductores[i].generoConductor %></b>
-              </p>
-            </details>
-          </div>
-        </section>
-        <br>
+      <% for (let i = 0; i < polizaData.conductores.length; i++) { %>
+      <section class="Accordions">
+        <div class="accordion">
+          <details>
+            <summary>
+              Drivers <br />
+              <%= i + 1 %>. <%= polizaData.conductores[i].nombreConductor %> (Insured)
+              <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+              <img
+                src="/IMG/flecha-hacia-abajo.png"
+                class="arrow-icon info-icon"
+                alt="Show more"
+              />
+            </summary>
+            <p>
+              Relationship: <b><%= polizaData.conductores[i].relacionConductor %></b>
+              <br />
+              Date of Birth:
+              <b
+                ><%= new
+                Date(polizaData.conductores[i].fechaNacimientoConductor).toLocaleDateString('en-US')
+                %></b
+              >
+              <br />
+              Gender: <b><%= polizaData.conductores[i].generoConductor %></b>
+            </p>
+          </details>
+        </div>
+      </section>
+      <br />
       <% } %>
-        <br>
+      <br />
       <section class="Accordions">
         <div class="accordion">
           <details>
             <summary>
               Vehicles <br />
-              1. <%= polizaData[0].anoVehiculo %> <%= polizaData[0].marcaVehiculo %> <%= polizaData[0].modeloVehiculo %>
+              1. <%= polizaData.poliza.anoVehiculo %> <%=
+              polizaData.poliza.marcaVehiculo %> <%= polizaData.poliza.modeloVehiculo %>
               <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
-              <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
+              <img
+                src="/IMG/flecha-hacia-abajo.png"
+                class="arrow-icon info-icon"
+                alt="Show more"
+              />
             </summary>
             <p>
-              Year: <b><%= polizaData[0].anoVehiculo %></b> <br />
-              Make: <b><%= polizaData[0].marcaVehiculo %></b> <br />
-              Model: <b><%= polizaData[0].modeloVehiculo %></b> <br />
-              VIN #: <b><%= polizaData[0].vinVehiculo %></b> <br />
-              Body Type: <b><%= polizaData[0].tipoCuerpoVehiculo %></b>
+              Year: <b><%= polizaData.poliza.anoVehiculo %></b> <br />
+              Make: <b><%= polizaData.poliza.marcaVehiculo %></b> <br />
+              Model: <b><%= polizaData.poliza.modeloVehiculo %></b> <br />
+              VIN #: <b><%= polizaData.poliza.vinVehiculo %></b> <br />
+              Body Type: <b><%= polizaData.poliza.tipoCuerpoVehiculo %></b>
               <br />
-              Lease: <b><%= polizaData[0].arrendamientoVehiculo %></b>
+              Lease: <b><%= polizaData.poliza.arrendamientoVehiculo %></b>
             </p>
           </details>
         </div>
@@ -129,38 +152,46 @@
     <br />
     <!-- Sección para facturación -->
     <div id="Facturacion1">
-  <div id="Facturacion">
-    <h1 id="facturacion_texto">Billing</h1>
-  </div>
-  <br />
-
-  <% for (let i = 0; i < facturaciones.length; i++) { %>
-    <section class="Accordions">
-      <div class="accordion">
-        <details>
-          <summary>
-            Payment Receipt <%= i + 1 %>
-            <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
-            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
-          </summary>
-          <table>
-            <tr>
-              <td><%= i + 1 %></td>
-              <td><b>Amount</b></td>
-              <td><b>Date</b></td>
-            </tr>
-            <tr>
-              <td><a href="/descargar-documento/<%= facturaciones[i].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
-              <td><%= facturaciones[i].cantidadFacturacion %></td>
-              <td><%= new Date(facturaciones[i].fechaFacturacion).toLocaleDateString('en-US') %></td>
-            </tr>
-          </table>
-        </details>
+      <div id="Facturacion">
+        <h1 id="facturacion_texto">Billing</h1>
       </div>
-    </section>
-    <br>
-  <% } %>
-</div>
+      <br />
+
+      <% if (polizaData.facturaciones && polizaData.facturaciones.length > 0) { %>
+        <% polizaData.facturaciones.forEach((facturacion, index) => { %>
+          <section class="Accordions">
+            <div class="accordion">
+              <details>
+                <summary>
+                  Payment Receipt <%= index + 1 %>
+                  <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+                  <img
+                    src="/IMG/flecha-hacia-abajo.png"
+                    class="arrow-icon info-icon"
+                    alt="Show more"
+                  />
+                </summary>
+                <table>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><b>Amount</b></td>
+                    <td><b>Date</b></td>
+                  </tr>
+                  <tr>
+                    <td><a href="/descargar-documento/<%= facturacion.archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
+                    <td><%= facturacion.cantidadFacturacion %></td>
+                    <td><%= new Date(facturacion.fechaFacturacion).toLocaleDateString('en-US') %></td>
+                  </tr>
+                </table>
+              </details>
+            </div>
+          </section>
+          <br />
+        <% }); %>
+      <% } else { %>
+        <p>No hay datos de facturación disponibles.</p>
+      <% } %>
+    </div>
     <script src="/JS/mostrar_datos.js"></script>
   </body>
 </html>

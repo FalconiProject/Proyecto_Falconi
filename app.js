@@ -148,19 +148,20 @@ app.get("/descargar-documento/:nombreDocumento", (req, res) => {
   });
 });
 
-app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
-  // Obtén el número de póliza o número de VIN de los parámetros de la URL
-  const numeroPolizaOVin = req.params.numeroPolizaOVin;
+app.get("/registeraB3dFXYZa", function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/register.html");
+  res.sendFile(indexPath);
+});
 
-  // Verifica si el número proporcionado parece ser un número de póliza (solo números)
+app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
+  const numeroPolizaOVin = req.params.numeroPolizaOVin;
   const isNumeroPoliza = /^\d+$/.test(numeroPolizaOVin);
 
-  // Realiza una consulta para obtener los datos de póliza y facturación en función del número de póliza o VIN
   let query;
   let queryParams;
 
   if (isNumeroPoliza) {
-    // Si el número parece ser de póliza (solo números), busca por número de póliza
     query = `
       SELECT *
       FROM Poliza AS P
@@ -169,10 +170,10 @@ app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
       INNER JOIN Vehiculos AS Veh ON P.idPoliza = Veh.idPoliza
       LEFT JOIN Facturacion AS Fact ON P.idPoliza = Fact.idPoliza
       WHERE P.numeroPoliza = ?
+      ORDER BY Fact.fechaFacturacion DESC
     `;
     queryParams = [numeroPolizaOVin];
   } else {
-    // Si el número parece ser un VIN (combinación de letras y números), busca por VIN
     query = `
       SELECT *
       FROM Poliza AS P
@@ -181,58 +182,68 @@ app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
       INNER JOIN Vehiculos AS Veh ON P.idPoliza = Veh.idPoliza
       LEFT JOIN Facturacion AS Fact ON P.idPoliza = Fact.idPoliza
       WHERE Veh.vinVehiculo = ?
+      ORDER BY Fact.fechaFacturacion DESC
     `;
     queryParams = [numeroPolizaOVin];
   }
 
   connection.query(query, queryParams, (err, result) => {
     if (err) {
-      // Manejar errores, por ejemplo, enviando una respuesta de error al cliente.
+      console.error(err);
       res.status(500).send("Error interno del servidor");
     } else if (result.length > 0) {
-      // Verifica que los datos se obtengan correctamente
-      console.log("Datos de la póliza y facturación:", result);
+      const polizaData = {
+        poliza: result[0],
+        conductores: [],
+        facturaciones: new Set(),
+      };
 
-      // Asegúrate de que los datos de facturación se almacenen en un arreglo
-      const facturaciones = result.map((row) => ({
-        cantidadFacturacion: row.cantidadFacturacion,
-        fechaFacturacion: row.fechaFacturacion,
-        archivo_pdf: row.archivo_pdf,
-      }));
+      // Iterar sobre los resultados para obtener conductores y facturaciones
+      result.forEach((row) => {
+        // Conductores
+        const conductor = {
+          idConductor: row.idConductor,
+          nombreConductor: row.nombreConductor,
+          relacionConductor: row.relacionConductor,
+          fechaNacimientoConductor: row.fechaNacimientoConductor,
+          generoConductor: row.generoConductor,
+        };
 
-      // Ahora, necesitas agrupar los datos de conductores en un formato más adecuado
-      const conductores = result.map((row) => ({
-        idConductor: row.idConductor,
-        nombreConductor: row.nombreConductor,
-        relacionConductor: row.relacionConductor,
-        fechaNacimientoConductor: row.fechaNacimientoConductor,
-        generoConductor: row.generoConductor,
-      }));
+        // Agregar conductor al array solo si no está ya presente
+        if (!polizaData.conductores.some((c) => c.idConductor === conductor.idConductor)) {
+          polizaData.conductores.push(conductor);
+        }
 
-      // Renderiza tu página HTML con los datos de la póliza y los conductores recuperados.
-      res.render("mostrar_datos", {
-        polizaData: result,
-        conductores,
-        facturaciones,
+        // Facturaciones
+        if (row.cantidadFacturacion !== null) {
+          const facturacion = {
+            cantidadFacturacion: row.cantidadFacturacion,
+            fechaFacturacion: row.fechaFacturacion,
+            archivo_pdf: row.archivo_pdf,
+          };
+
+          // Agregar facturación al conjunto (Set) para evitar duplicados
+          polizaData.facturaciones.add(JSON.stringify(facturacion));
+        }
       });
+
+      // Convertir el conjunto de facturaciones a un array
+      polizaData.facturaciones = Array.from(polizaData.facturaciones).map((facturacionString) =>
+        JSON.parse(facturacionString)
+      );
+
+      // Mostrar información en la consola del servidor
+      console.log("Datos de la póliza:", polizaData.poliza);
+      console.log("Datos de conductores:", polizaData.conductores);
+      console.log("Datos de facturaciones:", polizaData.facturaciones);
+
+      res.render("mostrar_datos", { polizaData });
     } else {
-      // Manejar el caso en el que no se encontró una póliza con el número proporcionado.
       res.status(404).send("Póliza no encontrada");
     }
   });
 });
 
-app.get("/registeraB3dFXYZa", function (req, res) {
-  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
-  const indexPath = path.join(__dirname, "public", "/HTML/register.html");
-  res.sendFile(indexPath);
-});
-
-app.get("/loginaB3dFXYZa", function (req, res) {
-  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
-  const indexPath = path.join(__dirname, "public", "/HTML/login.html");
-  res.sendFile(indexPath);
-});
 
 app.post("/registrar", upload.single("archivo_pdf"), (req, res) => {
   const data = req.body;

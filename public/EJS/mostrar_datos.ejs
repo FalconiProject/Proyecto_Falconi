@@ -129,33 +129,38 @@
     <br />
     <!-- Sección para facturación -->
     <div id="Facturacion1">
-      <div id="Facturacion">
-        <h1 id="facturacion_texto">Billing</h1>
+  <div id="Facturacion">
+    <h1 id="facturacion_texto">Billing</h1>
+  </div>
+  <br />
+
+  <% for (let i = 0; i < facturaciones.length; i++) { %>
+    <section class="Accordions">
+      <div class="accordion">
+        <details>
+          <summary>
+            Payment Receipt <%= i + 1 %>
+            <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+            <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
+          </summary>
+          <table>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><b>Amount</b></td>
+              <td><b>Date</b></td>
+            </tr>
+            <tr>
+              <td><a href="/descargar-documento/<%= facturaciones[i].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
+              <td><%= facturaciones[i].cantidadFacturacion %></td>
+              <td><%= new Date(facturaciones[i].fechaFacturacion).toLocaleDateString('en-US') %></td>
+            </tr>
+          </table>
+        </details>
       </div>
-      <br />
-      <section class="Accordions">
-        <div class "accordion">
-          <details>
-            <summary>
-              Payment Receipt
-              <img src="/IMG/flecha-hacia-abajo.png" class="arrow-icon info-icon" alt="Show more">
-            </summary>
-            <table>
-              <tr>
-                <td>X</td>
-                <td><b>Amount</b></td>
-                <td><b>Date</b></td>
-              </tr>
-              <tr>
-                <td><a href="/descargar-documento/<%= facturaciones[0].archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
-                <td><%= facturaciones[0].cantidadFacturacion %></td>
-                <td><%= new Date(facturaciones[0].fechaFacturacion).toLocaleDateString('en-US') %></td>
-              </tr>
-            </table>
-          </details>
-        </div>
-      </section>
-    </div>
+    </section>
+    <br>
+  <% } %>
+</div>
     <script src="/JS/mostrar_datos.js"></script>
   </body>
 </html>

@@ -107,6 +107,12 @@ app.get("/agregar-conductores", auth, function (req, res) {
   res.sendFile(indexPath);
 });
 
+app.get("/adicionar-facturacion", auth, function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/adicionar_datos_facturación.html");
+  res.sendFile(indexPath);
+});
+
 app.get("/eliminar-conductores", auth, function (req, res) {
   // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
   const indexPath = path.join(__dirname, "public", "/HTML/eliminar_conductores.html");
@@ -515,6 +521,67 @@ app.put("/modificar-poliza/:numeroPoliza", upload.single("archivo_pdf"), (req, r
   }
 });
 
+app.post("/agregar-facturacion", upload.single("archivo_pdf"), (req, res) => {
+  const numeroPoliza = req.body.numeroPoliza;
+  const pdfFilename = req.file.filename;
+
+  // Consulta SQL para obtener el idPoliza correspondiente al número de póliza
+  const buscarPolizaQuery = "SELECT idPoliza FROM Poliza WHERE numeroPoliza = ?";
+  
+  connection.query(buscarPolizaQuery, [numeroPoliza], (err, results) => {
+    if (err) throw err;
+
+    const idPoliza = results[0].idPoliza;
+
+    // Consulta SQL para contar la cantidad de datos de facturación asociados a la póliza
+    const contarFacturacionQuery = "SELECT COUNT(*) AS cantidadFacturacion FROM Facturacion WHERE idPoliza = ?";
+    
+    connection.query(contarFacturacionQuery, [idPoliza], (err, results) => {
+      if (err) throw err;
+
+      const cantidadFacturacion = results[0].cantidadFacturacion;
+
+      // Si hay 12 o más datos de facturación, elimina la más antigua
+      if (cantidadFacturacion >= 12) {
+        const eliminarFacturacionQuery = "DELETE FROM Facturacion WHERE idPoliza = ? ORDER BY fechaFacturacion ASC LIMIT 1";
+        
+        connection.query(eliminarFacturacionQuery, [idPoliza], (err) => {
+          if (err) throw err;
+
+          // Ahora puedes agregar la nueva facturación
+          const agregarNuevaFacturacionQuery = "INSERT INTO Facturacion (idPoliza, cantidadFacturacion, fechaFacturacion, archivo_pdf) VALUES (?, ?, ?, ?)";
+          
+          connection.query(
+            agregarNuevaFacturacionQuery,
+            [idPoliza, req.body.cantidadFacturacion, req.body.fechaFacturacion, pdfFilename],
+            (err) => {
+              if (err) throw err;
+
+              // Resto del código como antes...
+
+              res.send("Facturación agregada correctamente.");
+            }
+          );
+        });
+      } else {
+        // Si hay menos de 12 datos de facturación, simplemente agrega la nueva facturación
+        const agregarNuevaFacturacionQuery = "INSERT INTO Facturacion (idPoliza, cantidadFacturacion, fechaFacturacion, archivo_pdf) VALUES (?, ?, ?, ?)";
+        
+        connection.query(
+          agregarNuevaFacturacionQuery,
+          [idPoliza, req.body.cantidadFacturacion, req.body.fechaFacturacion, pdfFilename],
+          (err) => {
+            if (err) throw err;
+
+            // Resto del código como antes...
+
+            res.send("Facturación agregada correctamente.");
+          }
+        );
+      }
+    });
+  });
+});
 
 
 //Eliminar Poliza

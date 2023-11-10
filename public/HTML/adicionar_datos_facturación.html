@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/CSS/modificar_estado_poliza.css">
+  <title>Agregar Datos de Facturación</title>
+</head>
+<body>
+  <h2>Agregar Datos de Facturación</h2>
+  
+  <form action="/agregar-facturacion" method="post" enctype="multipart/form-data">
+    <label for="NumeroPoliza">Numero de Poliza:</label>
+    <input type="number" name="numeroPoliza">
+
+    <br> <hr>
+
+    <label for="cantidadFacturacion">Cantidad de Facturación:</label>
+    <input type="number" name="cantidadFacturacion" required>
+
+    <label for="fechaFacturacion">Fecha de Facturación:</label>
+    <input type="date" name="fechaFacturacion" required>
+
+    <label for="archivo_pdf">Archivo PDF:</label>
+    <input type="file" name="archivo_pdf" accept=".pdf" required>
+
+    <button type="submit">Agregar Facturación</button>
+  </form>
+</body>
+</html>

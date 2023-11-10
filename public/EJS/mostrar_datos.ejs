@@ -158,36 +158,37 @@
       <br />
 
       <% if (polizaData.facturaciones && polizaData.facturaciones.length > 0) { %>
-        <% polizaData.facturaciones.forEach((facturacion, index) => { %>
-          <section class="Accordions">
-            <div class="accordion">
-              <details>
-                <summary>
-                  Payment Receipt <%= index + 1 %>
-                  <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
-                  <img
-                    src="/IMG/flecha-hacia-abajo.png"
-                    class="arrow-icon info-icon"
-                    alt="Show more"
-                  />
-                </summary>
-                <table>
+        <section class="Accordions">
+          <div class="accordion">
+            <details>
+              <summary>
+                Payment Receipts
+                <!-- Agrega la imagen de la flecha hacia abajo (cerrada) -->
+                <img
+                  src="/IMG/flecha-hacia-abajo.png"
+                  class="arrow-icon info-icon"
+                  alt="Show more"
+                />
+              </summary>
+              <table>
+                <tr>
+                  <th>#</th>
+                  <th>Download PDF</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                </tr>
+                <% polizaData.facturaciones.forEach((facturacion, index) => { %>
                   <tr>
                     <td><%= index + 1 %></td>
-                    <td><b>Amount</b></td>
-                    <td><b>Date</b></td>
-                  </tr>
-                  <tr>
-                    <td><a href="/descargar-documento/<%= facturacion.archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px;"></a></td>
+                    <td><a href="/descargar-documento/<%= facturacion.archivo_pdf %>" download><img src="/IMG/pdf.png" style="width: 20px; margin-right: 5px;"></a></td>
                     <td><%= facturacion.cantidadFacturacion %></td>
                     <td><%= new Date(facturacion.fechaFacturacion).toLocaleDateString('en-US') %></td>
                   </tr>
-                </table>
-              </details>
-            </div>
-          </section>
-          <br />
-        <% }); %>
+                <% }); %>
+              </table>
+            </details>
+          </div>
+        </section>
       <% } else { %>
         <p>No hay datos de facturación disponibles.</p>
       <% } %>

@@ -154,6 +154,12 @@ app.get("/registeraB3dFXYZa", function (req, res) {
   res.sendFile(indexPath);
 });
 
+app.get("/loginaB3dFXYZa", function (req, res) {
+  // Utiliza el método `join` del módulo `path` para construir rutas de forma segura
+  const indexPath = path.join(__dirname, "public", "/HTML/login.html");
+  res.sendFile(indexPath);
+});
+
 app.get("/mostrar-datos/:numeroPolizaOVin", function (req, res) {
   const numeroPolizaOVin = req.params.numeroPolizaOVin;
   const isNumeroPoliza = /^\d+$/.test(numeroPolizaOVin);
